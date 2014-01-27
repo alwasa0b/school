@@ -1,0 +1,9 @@
+{% extends "base.html"  %}
+{% block content  %}
+<h5>Welcome to our site! hope you enjoy your stay!</h5>
+<a href="/media/guide.pdf">User Guide</p></a>
+<a href="/media/">View code</p></a>
+<a href="/media/code.zip">Download code</p></a>
+<a href="/media/report.pdf">Download Report</p></a>
+
+{% endblock  %}

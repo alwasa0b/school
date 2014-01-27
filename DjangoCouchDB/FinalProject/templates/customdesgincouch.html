@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Custom Orders</h1>
+<form method="post" action=".">{% csrf_token %}
+	
+<table>
+  <tr>
+    <td> Name </td>
+    <td><input type="text" name="name"></td>
+    <tr>
+    <td> Address </td>
+    <td><input type="text" name="address"></td>
+    <tr>
+    <td> Description </td>
+    <td><textarea name="description" id="description" cols="25" rows="5">Your Desgin Description Here</textarea></td>
+    <tr>
+    <td> Artist </td>
+    <td><select name="item_id">
+	{% for i in des %}
+    <option value="{{ i.key.name }}">{{ i.key.name }}</option>
+	{% endfor %}
+    </select></td>
+    <td><input type="submit"></td>
+  </tr>
+</table>
+</form>
+{% endblock %}

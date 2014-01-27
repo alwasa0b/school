@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<form enctype="multipart/form-data" method="post">
+{% csrf_token %}
+{{ form.as_p }}{{form.help_text.as_p}}
+<p><input type="submit" alt="order"  value="Make Reservation" /></p>
+<h4>Please call us for reservations. Our <a href="/admin/" accesskey="5" title="">Employees</a> will happy to assist you using the admin interface and username:guest password:guest</h4> 
+</form>
+{% endblock %}
+
