@@ -1,0 +1,10 @@
+{% extends "base.html"  %}
+{% block content  %}
+	<div id="artistlist">
+		{% for art in artists  %}
+		<ul class="style2"><p><a href="/artist/{{art.key.slug}}">{{ art.key.name  }}</a></p></ul class>
+			
+		{% endfor  %}
+	
+	</div>
+{% endblock  %}

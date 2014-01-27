@@ -1,0 +1,25 @@
+{% extends "base.html"  %}
+{% block content  %}
+
+	
+		
+		
+		
+	<div id="artist">
+	
+		<p>Artist Name: {{ name }}</p>
+		<p>Description: {{ description }}</p>
+		<p>All Work by {{ name }}:</p>
+		{%for row in rows%}
+		<a href="/readytatoos/{{ row.key.slug }}/"><p>{{ row.key.name }}</p></a>
+		{% endfor  %}
+		<p>picture:</p> <img src="{{ MEDIA_URL }}{{ picture }}" width="500" height="300" alt="Big Boat">
+		
+	
+	</div>			
+	
+		
+	
+	
+{% endblock  %}
+
