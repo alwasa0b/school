@@ -2,6 +2,11 @@
 # input will come from buttons and an input field
 # all output for the game will be printed in the console
 
+# 
+#  @class Rice An Introduction to Interactive Programming in Python project 2 Solution
+#  @author Saeed Alalwan
+#
+#  
 
 
 import random
