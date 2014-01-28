@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="p1"/>
+	<classpathentry kind="src" path="lab01"/>
+	<classpathentry kind="src" path="lab03"/>
+	<classpathentry kind="src" path="lab05"/>
+	<classpathentry kind="src" path="lab07"/>
+	<classpathentry kind="src" path="lab02"/>
+	<classpathentry kind="src" path="lab04"/>
+	<classpathentry kind="src" path="lab06"/>
+	<classpathentry kind="src" path="lab10"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

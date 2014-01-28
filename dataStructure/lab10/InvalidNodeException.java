@@ -1,6 +1,6 @@
 /* InvalidNodeException.java */
 
-package lab10.tree;
+
 
 /**
  *  Implements an Exception that signals an attempt to use an invalid ListNode.

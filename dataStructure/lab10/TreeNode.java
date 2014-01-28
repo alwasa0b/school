@@ -1,6 +1,6 @@
 /* TreeNode.java */
 
-package lab10.tree;
+
 
 /**
  *  A TreeNode object is a mutable node in a tree.  No implementation is

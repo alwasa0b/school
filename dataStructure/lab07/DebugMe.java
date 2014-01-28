@@ -1,5 +1,4 @@
-package lab07;
-/* DebugMe.java */
+
 
 /**
  *  DebugMe is an application for summing a geometric series.

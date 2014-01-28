@@ -1,5 +1,4 @@
-package lab07;
-/* ListNode.java */
+
 
 /**
  *  ListNode is a very simple headless list class, akin to cons cells in

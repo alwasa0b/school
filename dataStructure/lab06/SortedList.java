@@ -1,5 +1,5 @@
 /* SortedList.java */
-package lab06;
+
 
 import java.util.Enumeration;
 

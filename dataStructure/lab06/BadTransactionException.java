@@ -1,4 +1,4 @@
-package lab06;
+
 /**
  * @class berkeley cs61b Lab 6 Solution
  * @author Saeed Alalwan

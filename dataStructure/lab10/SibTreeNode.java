@@ -1,5 +1,5 @@
 /* SibTreeNode.java */
-package lab10.tree;
+
 
 /**
  *  A SibTreeNode object is a node in a SibTree (sibling-based general tree).

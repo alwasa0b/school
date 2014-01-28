@@ -1,8 +1,5 @@
 /*  VirtualTeller.java */
-package lab06;
-import lab06.BadTransactionException;
 
-import java.io.IOException;
 
 
 /**

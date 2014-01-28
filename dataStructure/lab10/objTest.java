@@ -1,4 +1,4 @@
-package lab10.tree;
+
 
 public class objTest extends TreeNode{
 	SibTreeNode parent;

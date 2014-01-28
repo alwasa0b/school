@@ -1,7 +1,4 @@
-package lab02;
-/**
- * 
- */
+
 
 /**
  * @class berkeley cs61b Lab 2

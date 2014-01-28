@@ -1,5 +1,4 @@
-package lab03;
-/* TestHelper.java */
+
 
 /**
  *  This class is based on code from Arnow/Dexter/Weiss.  Its verify() method

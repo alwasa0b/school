@@ -1,6 +1,6 @@
 /* SibTree.java */
 
-package lab10.tree;
+
 
 /**
  *  The SibTree class implements general trees using linked nodes.  Each node

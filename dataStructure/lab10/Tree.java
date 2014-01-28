@@ -1,6 +1,6 @@
 /* Tree.java */
 
-package lab10.tree;
+
 
 /**
  *  A Tree is a mutable ADT for general trees (wherein a node can have any

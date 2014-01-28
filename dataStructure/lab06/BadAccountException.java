@@ -1,4 +1,4 @@
-package lab06;
+
 
 /* BadAccountException.java */
 

@@ -1,4 +1,4 @@
-package p1;
+
 
 /* TypeAndSize.java */
 

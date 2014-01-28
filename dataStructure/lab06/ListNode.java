@@ -1,5 +1,5 @@
 /* ListNode.java */
-package lab06;
+
 
 
 /**

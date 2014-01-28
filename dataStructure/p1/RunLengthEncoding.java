@@ -1,6 +1,5 @@
-package p1;
 
-import lab04.DListNode2;
+
 
 /* RunLengthEncoding.java */
 
