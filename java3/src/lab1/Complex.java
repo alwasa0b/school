@@ -49,8 +49,8 @@ public class Complex{
 		}
 		if (this.imaginary<=0&& this.real<0){
 			op="";
-			imaginary=String.valueOf(this.real);
-			real="";
+			imaginary=String.valueOf(this.imaginary);
+			real=String.valueOf(this.real);
 			i="";
 			
 		}
