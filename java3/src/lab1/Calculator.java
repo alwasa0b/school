@@ -1,3 +1,4 @@
+package lab1;
 import java.io.*;
  
 public class Calculator
@@ -6,26 +7,41 @@ public class Calculator
  
       Complex num1, num2, result = new Complex();
       char    op;
-      boolean more;
+      boolean more = true;
  
       System.out.println("\nComplex number calculation program\n");
       do
       {  num1 = readComplex(in);
          num2 = readComplex(in);
- 
+         
          op   = readChar(in, "Enter the operation '+, -, *, or /': ", "+-*/");
-         switch (op)
-         {  case '+':  result = num1.add(num2);
+         
+         
+     		  switch (op)
+         {  case '+':result = num1.add(num2);
+         			 break;
+            case '*':  
+            		
+            	       result = num1.product(num2);
                        break;
-            case '*':  result = num1.product(num2);
-                       break;
-            case '/':  result = num1.div(num2);
-                       break;
+            	 
+            
+            case '/': 
+            	 try{
+            	result = num1.div(num2);
+            		   
+            	break;}catch(Exception e){
+            		System.out.println(e);
+            		continue;
+            	}
+            
+            		   
             case '-':  result = num1.minus(num2);                      
          }
          System.out.println(num1+" "+op+" "+num2+" = "+result);
+        
          more = (readChar(in, "Perform another calculation? (y/n): ", "yn") !='n');
-                 
+           
       } while (more);
            
       System.out.println("\n\nCalculation program completed\n");
@@ -44,6 +60,7 @@ public class Calculator
             } 
             catch (Exception exception) 
             {  System.out.println("llegal Format - enter 'a+bi' and try again");  }
+            
       }
 
    }
