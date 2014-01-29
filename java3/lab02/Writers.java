@@ -49,8 +49,7 @@ public class Writers{
 					throw new InvalidParameterException();
 				}
 
-				do
-				{  
+				do{  
 					System.out.print("Enter Name: ");
 					name = in.readLine() + spaces;
 					name = name.substring(0,NAME_SIZE);
@@ -66,110 +65,163 @@ public class Writers{
 					quit = (doMore.length()>0 && "quit".startsWith(doMore));
 				}  while (!quit);
 			}
-			catch (InvalidParameterException e)
-			{  System.out.println("Unknown case");
-			System.exit(1);
+			catch (InvalidParameterException e){  
+				System.out.println("Unknown case");
+				System.exit(1);
 			}
-			catch (IOException e)
-			{  System.out.println("I/O Error");
+			catch (IOException e){  
+				System.out.println("I/O Error");
 			}
-			catch (Exception e)
-			{  System.out.println("Illegal Entry");
+			catch (Exception e){  
+				System.out.println("Illegal Entry");
 			}
-			finally { try { out.close(); } catch(Exception e) {} }
+			finally { 
+					try {
+						out.close(); 
+						} 
+					catch(Exception e) {
+						
+					} 
+				}
 			System.out.println("Another file? (y/n) ");
 
-			try
-			{  doMore = in.readLine().toLowerCase();
-			moreFiles = (doMore.length()>0 && "yes".startsWith(doMore));
+			try{  
+				doMore = in.readLine().toLowerCase();
+				moreFiles = (doMore.length()>0 && "yes".startsWith(doMore));
 			}
 			catch (Exception e) {moreFiles = false;}
-		}  while (moreFiles);
-
+			}  while (moreFiles);
 		System.out.println("File write complete; data is in "+fileName+"\n");
 	}   // End void main()
-
 	// Method to input an age.
-	private static int getAge()
-	{  int age = -1;
-	String inputString = null;
-
-	do
-	{  try
-	{  System.out.print("Enter Age: ");
-	inputString = in.readLine();
-	age = Integer.parseInt(inputString);
-	if (age<0 || age>100) throw new Exception();
-	return age;
-	}
-	catch (Exception e) {System.out.println("Illegal age, try again");}
-	}  while (true);
-	}
-
+	private static int getAge(){
+		int age = -1;
+		String inputString = null;
+		do{
+			try{
+				System.out.print("Enter Age: ");
+				inputString = in.readLine();
+				age = Integer.parseInt(inputString);
+				if (age<0 || age>100) throw new Exception();
+				return age;
+				}catch (Exception e) {
+					System.out.println("Illegal age, try again");
+					}
+			}while (true);
+		}
 	// Method to input a salary.
-	private static double getSalary()
-	{  double salary = -1;
-	String inputString = null;
-
-	do
-	{  try
-	{  System.out.print("Enter Salary: ");
-	inputString = in.readLine();
-	salary = Double.parseDouble(inputString);
-	if (salary<0 || salary>1000000) throw new Exception();
-	return salary;
+	private static double getSalary(){
+		double salary = -1;
+		String inputString = null;
+		do{
+			try{
+				System.out.print("Enter Salary: ");
+				inputString = in.readLine();
+				salary = Double.parseDouble(inputString);
+				if (salary<0 || salary>1000000) throw new Exception();
+				return salary;
+				}
+			catch (Exception e){
+				System.out.println("Illegal salary, try again");
+				}
+			}while (true);
+		}
 	}
-	catch (Exception e) {System.out.println("Illegal salary, try again");}
-	}  while (true);
+	abstract class Writer{
+		
+		
+
+		public abstract void write(String name, int age, double salary, int record) throws IOException;
+		
+		public abstract void close();
+		
+		}
+	
+	
+	
+	
+	//Random class
+	class Random extends Writer{
+		RandomAccessFile out;
+		int recordSize;
+		
+		
+		public Random(String fileName, int recordSize) throws FileNotFoundException{
+			this.recordSize=recordSize;
+			this.out = new RandomAccessFile(fileName,"rw");
+			
+		}
+		
+		
+		public void write(String name, int age, double salary, int record)throws IOException{
+			//set file size to record size
+			
+			
+		
+			//store record in a String s var
+			
+			String s= record+" "+name+age+" "+salary+"\n";
+		
+			System.out.println(this.recordSize);
+			out.seek(this.recordSize);
+			out.writeUTF(s);
+			this.recordSize+=128;
+			
+		}		
+		
+		
+		public void close(){
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
-}
-
-abstract class Writer
-{  public abstract void write(String name, int age, double salary, int record)
-		throws IOException;
-public abstract void close();
-}
-
-class Random extends Writer
-{  RandomAccessFile out;
-int recordSize;
-
-public Random(String fileName, int recordSize)
-		throws FileNotFoundException
-		{   }
-
-public void write(String name, int age, double salary, int record)
-		throws IOException
-		{   }
-
-public void close()
-{   }
-}
-
-class Binary extends Writer
-{  DataOutputStream out = null;
-
-public Binary(String fileName) throws IOException
-{   }
-
-public void write(String name, int age, double salary, int record)
-		throws IOException
-		{   }
-
-public void close()
-{   }
-}
-
-class Text extends Writer
-{  PrintWriter out = null;
-
-public Text(String fileName) throws IOException
-{   }
-
-public void write(String name, int age, double salary, int record)
-		throws IOException
-		{   }
-
-public void close()
-{   }
-}
+	
+	
+	
+	
+	
+	//Binary class
+	class Binary extends Writer{
+		DataOutputStream out = null;
+		
+		public Binary(String fileName) throws IOException{
+			this.out= new DataOutputStream(new FileOutputStream(fileName));
+		}
+		
+		
+		public void write(String name, int age, double salary, int record) throws IOException{
+			
+			String s= record+" "+name+age+" "+salary+"\n";
+			this.out.write(s.getBytes());
+		}
+		
+		
+		public void close(){
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
+	
+	//Text class
+	class Text extends Writer{  
+		PrintWriter out = null;
+		
+		public Text(String fileName) throws IOException{}
+		
+		
+		public void write(String name, int age, double salary, int record) throws IOException{}
+		
+		
+		public void close(){}
+	}
