@@ -217,11 +217,18 @@ public class Writers{
 	class Text extends Writer{  
 		PrintWriter out = null;
 		
-		public Text(String fileName) throws IOException{}
+		public Text(String fileName) throws IOException{
+			this.out= new PrintWriter(new FileOutputStream(fileName));
+		}
 		
 		
-		public void write(String name, int age, double salary, int record) throws IOException{}
+		public void write(String name, int age, double salary, int record) throws IOException{
+			String s= record+" "+name+age+" "+salary+"\n";
+			this.out.write(s);
+		}
 		
 		
-		public void close(){}
+		public void close(){
+			out.close();
+		}
 	}
