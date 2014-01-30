@@ -20,30 +20,28 @@ public class RandReader {
 		}
 		 String s=null;
 		 try {
-			i.seek(counter);
+			while(i.getFilePointer()<i.length())
+			{
+			   // reads characters encoded with modified UTF-8
+			  
+			try {
+				//i.seek(counter--);
+				s = i.readUTF();
 			
-		} catch (IOException e2) {
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			  
+			   // print
+			   
+			   if(!s.isEmpty()){
+				   System.out.print(s);
+			   }
+			}
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		while(counter>0)
-		{
-		   // reads characters encoded with modified UTF-8
-		  
-		try {
-			i.seek(counter--);
-			s = i.readUTF();
-		
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		  
-		   // print
-		   
-		   if(s.isEmpty()){
-			   System.out.print(s);
-		   }
+			e.printStackTrace();
 		}
 	}
 
