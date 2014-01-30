@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-//test
+
 public class BinReader {
 	FileInputStream in;
 	public BinReader(FileInputStream in) {
