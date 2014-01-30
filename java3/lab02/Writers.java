@@ -1,7 +1,11 @@
 // This program writes different types of files.
 //    Random, Binary, and Text.
 // Created 3/29/2004 for the lab 2 cs258 project.
-
+/**
+ * @class CS258 Lab 2 Solution
+ * @author Saeed Alalwan
+ * 
+ */
 import java.io.*;
 import java.security.*;
 

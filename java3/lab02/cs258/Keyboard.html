@@ -1,0 +1,940 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 9">
+<meta name=Originator content="Microsoft Word 9">
+<link rel=File-List href="./Keyboard_files/filelist.xml">
+<title>Keyboard.java</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Template>Normal</o:Template>
+  <o:LastAuthor>harveyd</o:LastAuthor>
+  <o:Revision>13</o:Revision>
+  <o:TotalTime>13</o:TotalTime>
+  <o:Created>2002-02-15T15:14:00Z</o:Created>
+  <o:LastSaved>2002-02-15T15:27:00Z</o:LastSaved>
+  <o:Pages>4</o:Pages>
+  <o:Words>1280</o:Words>
+  <o:Characters>7300</o:Characters>
+  <o:Company>Southern Oregon University</o:Company>
+  <o:Lines>60</o:Lines>
+  <o:Paragraphs>14</o:Paragraphs>
+  <o:CharactersWithSpaces>8964</o:CharactersWithSpaces>
+  <o:Version>9.3821</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+@font-face
+	{font-family:"MS Mincho";
+	panose-1:0 0 0 0 0 0 0 0 0 0;
+	mso-font-alt:"\FF2D\FF33 \660E\671D";
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:fixed;
+	mso-font-signature:1 134676480 16 0 131072 0;}
+@font-face
+	{font-family:"\@MS Mincho";
+	panose-1:0 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:fixed;
+	mso-font-signature:1 134676480 16 0 131072 0;}
+ /* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-parent:"";
+	margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	font-weight:bold;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{margin:0in;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Courier New";
+	mso-fareast-font-family:"Times New Roman";
+	font-weight:bold;}
+@page Section1
+	{size:8.5in 11.0in;
+	margin:1.0in 65.95pt 1.0in 65.95pt;
+	mso-header-margin:.5in;
+	mso-footer-margin:.5in;
+	mso-paper-source:0;}
+div.Section1
+	{page:Section1;}
+-->
+</style>
+</head>
+
+<body lang=EN-US style='tab-interval:.5in'>
+
+<div class=Section1>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//********************************************************************<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//<span
+style="mso-spacerun: yes">  </span>Keyboard.java<span style="mso-spacerun:
+yes">       </span>Author: Lewis and Loftus<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//<span
+style="mso-spacerun: yes">  </span>Facilitates keyboard input by abstracting
+details about input<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//<span
+style="mso-spacerun: yes">  </span>parsing, conversions, and exception
+handling.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>//********************************************************************<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>import
+java.io.*;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>import
+java.util.*;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>public
+class Keyboard <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>{<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//*************<span style="mso-spacerun:
+yes">  </span>Error Handling Section<span style="mso-spacerun: yes"> 
+</span>**************************<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static boolean printErrors = true;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static int errorCount = 0;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns the current error count.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static int getErrorCount()<span
+style="mso-spacerun: yes">  </span>{return errorCount;}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Resets the current error count to zero.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static void resetErrorCount (int
+count)<span style="mso-spacerun: yes">   </span>{errorCount = 0;}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a boolean indicating whether input errors are<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>currently printed to standard output.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static boolean getPrintErrors()<span
+style="mso-spacerun: yes">   </span>{return printErrors;}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Sets a boolean indicating whether input errors are to be<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>printed to standard output.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static void setPrintErrors (boolean
+flag)<span style="mso-spacerun: yes">   </span>{printErrors = flag;}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Increments the error count and prints the error message if<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>appropriate.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static void error (String str)<span
+style="mso-spacerun: yes">  </span><br>
+<span style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>errorCount++;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>if (printErrors) System.out.println
+(str);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//*************<span style="mso-spacerun:
+yes">  </span>Tokenized Input Stream Section<span style="mso-spacerun: yes"> 
+</span>******************<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static String current_token = null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static StringTokenizer reader;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static BufferedReader in <br>
+<span style='mso-tab-count:2'>            </span>= new BufferedReader (new
+InputStreamReader(System.in));<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Gets the next input token assuming it may be on subsequent<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>input lines.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static String getNextToken() {return
+getNextToken (true);}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Gets the next input token, which may already have been read.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static String getNextToken (boolean
+skip) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes">  </span>String
+token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>if (current_token == null)<span
+style="mso-spacerun: yes">   </span>token = getNextInputToken (skip);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>else<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>token = current_token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>current_token = null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Gets the next token from the input, which may come from the<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>current input line or a subsequent one. The parameter<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>determines if subsequent lines are used.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>private static String getNextInputToken
+(boolean skip) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>final String delimiters = &quot; \t\n\r\f&quot;;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>String token = null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{ <span style="mso-spacerun:
+yes"> </span>if (reader == null) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span><span style="mso-spacerun:
+yes"> </span><span style="mso-spacerun: yes">  </span>reader = new
+StringTokenizer(in.readLine(), delimiters, true);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>while (token == null || ((delimiters.indexOf
+(token) &gt;= 0) &amp;&amp; skip))<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>{<span style="mso-spacerun: yes"> 
+</span>while (!reader.hasMoreTokens()) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">            </span>reader = new StringTokenizer(in.readLine(),
+delimiters,true);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">            </span>token = reader.nextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) {token =
+null;}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns true if there are no more tokens to read on the<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>current input line.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static boolean endOfLine() <span
+style="mso-spacerun: yes"> </span>{return !reader.hasMoreTokens();}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//*************<span style="mso-spacerun:
+yes">  </span>Reading Section<span style="mso-spacerun: yes"> 
+</span>*********************************<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a string read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static String readString() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String str;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{ <span style="mso-spacerun:
+yes"> </span>str = getNextToken(false);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>while (! endOfLine())<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>{ <span style="mso-spacerun:
+yes"> </span>str = str + getNextToken(false);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span><span style="mso-spacerun:
+yes">   </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading String data, null value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>str = null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return str;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a space-delimited substring (a word) read from<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static String readWord() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{ <span style="mso-spacerun:
+yes"> </span>token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading String data, null value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>token = null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return token;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a boolean read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static boolean readBoolean() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{ <span style="mso-spacerun:
+yes"> </span>String token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>boolean bool;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{ <span style="mso-spacerun:
+yes"> </span>if (token.toLowerCase().equals(&quot;true&quot;)) bool = true;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>else if
+(token.toLowerCase().equals(&quot;false&quot;)) bool = false;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span><span style="mso-spacerun:
+yes">     </span>else <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span><span style="mso-spacerun:
+yes">     </span>{<span style="mso-spacerun: yes">  </span>error (&quot;Error
+reading boolean data, false value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">     </span><span style="mso-spacerun: yes"> </span><span
+style="mso-spacerun: yes">           </span>bool = false;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">     </span><span style="mso-spacerun:
+yes">         </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception)<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{ <span style="mso-spacerun:
+yes"> </span>error (&quot;Error reading boolean data, false value
+returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>bool = false;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return bool;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a character read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static char readChar() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String token = getNextToken(false);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>char value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>if (token.length() &gt; 1)<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>{ <span style="mso-spacerun:
+yes">  </span>current_token = token.substring (1, token.length());<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>} <span style="mso-spacerun:
+yes">  </span>else<span style="mso-spacerun: yes">  </span>current_token =
+null;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = token.charAt (0);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading char data, MIN_VALUE value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = Character.MIN_VALUE;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes"> </span><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns an integer read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static int readInt() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>int value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>value = Integer.parseInt (token);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading int data, MIN_VALUE value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = Integer.MIN_VALUE;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a long integer read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static long readLong() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>long value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>value = Long.parseLong (token);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading long data, MIN_VALUE value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = Long.MIN_VALUE;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span><span style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a float read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static float readFloat() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{<span style="mso-spacerun: yes"> 
+</span>String token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>float value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>value = (new Float(token)).floatValue();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading float data, NaN value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = Float.NaN;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>//<span style="mso-spacerun: yes"> 
+</span>Returns a double read from standard input.<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">  
+</span>//-----------------------------------------------------------------<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>public static double readDouble() <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>{ <span style="mso-spacerun:
+yes"> </span>String token = getNextToken();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>double value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>try <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>value = (new Double(token)).doubleValue();<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>} <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>catch (Exception exception) <o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>{<span style="mso-spacerun: yes"> 
+</span>error (&quot;Error reading double data, NaN value returned.&quot;);<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">         </span>value = Double.NaN;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">      </span>return value;<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><span
+style="mso-spacerun: yes">   </span>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'>}<o:p></o:p></span></p>
+
+<p class=MsoPlainText><span style='mso-fareast-font-family:"MS Mincho"'><![if !supportEmptyParas]>&nbsp;<![endif]><o:p></o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

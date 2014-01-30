@@ -3,6 +3,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+/**
+ * @class CS258 Lab 2
+ * @author Saeed Alalwan
+ * 
+ */
 
 public class RandReader {
 	RandomAccessFile in;
