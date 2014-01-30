@@ -223,7 +223,7 @@ public class Writers{
 		
 		
 		public void write(String name, int age, double salary, int record) throws IOException{
-			String s= record+" "+name+age+" "+salary+"\n";
+			String s= record+" "+name+age+" "+salary;
 			this.out.write(s);
 		}
 		
