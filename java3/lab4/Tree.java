@@ -5,13 +5,13 @@ import java.applet.Applet;
 import java.awt.*;
 
 public class Tree extends Applet{
-	private final int    APPLET_WIDTH  = 320;
-	private final int    APPLET_HEIGHT = 320;
-	private final double STARTSIZE     = 110.0;
-	private final double STARTANGLE    = 180.0;
-	private final double CHANGEANGLE   =  30.0;
-	private final double FACTOR        =   2.0;
-	private final double MINSIZE       =  10.0;
+	protected final int    APPLET_WIDTH  = 320;
+	protected final int    APPLET_HEIGHT = 320;
+	protected final double STARTSIZE     = 110.0;
+	protected final double STARTANGLE    = 180.0;
+	protected final double CHANGEANGLE   =  30.0;
+	protected final double FACTOR        =   2.0;
+	protected final double MINSIZE       =  10.0;
 
 // Initialize the applet.
 
@@ -30,7 +30,9 @@ public class Tree extends Applet{
    
    public void drawTree( Graphics page, int x, int y, double size, double angle ){
 	   Point endPoint = calculatePoint(x, y, size, angle );
+	   page.setColor(new Color(156, 93, 82));
 	   page.drawLine(x, y, endPoint.x, endPoint.y);
+	 
 	  
 	   if (size > MINSIZE){
 		   drawTree(page, endPoint.x, endPoint.y, size/FACTOR, angle+CHANGEANGLE);
