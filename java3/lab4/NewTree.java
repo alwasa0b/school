@@ -55,7 +55,7 @@ public class NewTree  extends Tree{
 	   public void drawTree( Graphics page, int x, int y, double size, double angle ){
 		   Point endPoint = calculatePoint(pickRandom(x-5,x+5), pickRandom(y-5,y+5), pickRandom((int)size-10,(int)size+10), pickRandom((int)angle-1,(int)angle+1));
 		   
-		   if(count !=0)drawLeaf(page, endPoint.x, endPoint.y, 8,(int)(size/FACTOR), (int)(angle+CHANGEANGLE),3);
+		   if(count !=0)drawLeaf(page, endPoint.x, endPoint.y, 8,(int)(size/FACTOR), (int)(angle),3);
 		   page.setColor(new Color(156, 93, 82));
 		   page.drawLine(x, y, endPoint.x, endPoint.y);
 		  
@@ -123,7 +123,7 @@ public class NewTree  extends Tree{
 	   
 		public void drawLeaf(Graphics p,int xZero,int yZero,int h,int w,int angle,int order){
 			//p.drawOval(xPoints, yPoints, w, h);
-			
+			Point top=calculatePoint(xZero,yZero,(double)w,(double)angle);
 		//	p.fillPolygon(p.drawPolygon(xPoints, yPoints, 1));
 			int [] x={xZero+1,xZero+5,xZero+4,xZero+9,xZero+7,xZero+8,xZero+5,xZero+5,xZero+3,xZero+4,xZero+2,xZero,xZero-2,xZero-4,xZero-3,xZero-5,xZero-8,xZero-7,xZero-7,xZero-4,xZero-5,xZero,xZero+2,xZero+2,xZero+1};
 		    int [] y={yZero-3,yZero-4,yZero-3,yZero+1,yZero+2,yZero+5,yZero+4,yZero+5,yZero+4,yZero+9,yZero+7,yZero+10,yZero+7,yZero+8,yZero+3,yZero+6,yZero+4,yZero+5,yZero+2,yZero+1,yZero-3,yZero-7,yZero-6,yZero-3};
