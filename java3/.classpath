@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="lab02"/>
 	<classpathentry kind="src" path="lab01"/>
 	<classpathentry kind="src" path="lab03"/>
+	<classpathentry kind="src" path="lab4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.Random;
 
 public class NewTree  extends Tree{
@@ -38,7 +39,7 @@ public class NewTree  extends Tree{
 		
 		 
 		 while(i>0){
-			 drawTree(page, pickRandom(50,APPLET_WIDTH-50),  pickRandom(251,320), STARTSIZE, STARTANGLE); 
+			 drawTree(page, pickRandom(50,APPLET_WIDTH-50),  pickRandom(255,320), STARTSIZE, STARTANGLE); 
 			 i--;
 			 }
 		
@@ -48,16 +49,36 @@ public class NewTree  extends Tree{
 		   Point endPoint = calculatePoint(pickRandom(x-5,x+5), pickRandom(y-5,y+5), pickRandom((int)size-10,(int)size+10), pickRandom((int)angle-1,(int)angle+1));
 		   page.setColor(new Color(156, 93, 82));
 		   page.drawLine(x, y, endPoint.x, endPoint.y);
-		 
+		   
+		   int xPoints[]={x,x+2,endPoint.x+2,endPoint.x};
+		   int yPoints[]={y,y+1,endPoint.y+1,endPoint.y};
+		   
+		   drawBranch(page,xPoints,yPoints);
 		   Random rnd= new Random();
+		   
 		   if (size > MINSIZE){
 			   
 			   drawTree(page, endPoint.x, endPoint.y, size/FACTOR, angle+CHANGEANGLE);
+			   
+			   drawLeaf(page, endPoint.x, endPoint.y, 8,(int)(size/FACTOR), (int)(angle+CHANGEANGLE),1);
+			 
+			  
 			   drawTree(page, endPoint.x, endPoint.y, size/FACTOR, angle-CHANGEANGLE);
+		
 			   
 		   }
 		   
 	   }  
+	   
+	   public void drawBranch(Graphics p,int []xPoints, int []yPoints){
+		  p.fillPolygon(xPoints, yPoints, 4);
+	   }
+	   public void drawLeaf(Graphics p,int xPoints,int yPoints,int h,int w,int angle,int order){
+		   
+		  
+		   p.drawRect(xPoints, yPoints, w, h);
+	   }
+	   
 	 public int pickRandom(int min, int max){
 		 Random rnd= new Random();
 		 return min + (int)(rnd.nextFloat() * ((max - min) + 1));
