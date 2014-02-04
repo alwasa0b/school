@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 
 public class TextRead extends Keyboard{
 	
+	
 	public TextRead(String filename) {
 		// TODO Auto-generated constructor stub
 		
