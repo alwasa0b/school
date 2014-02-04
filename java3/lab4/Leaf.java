@@ -10,9 +10,13 @@ public class Leaf extends NewTree{
 	/**
 	 * @param args
 	 */
-	public void drawLeaf(Graphics p,int xPoints,int yPoints,int h,int w,int angle,int order){
+	public void drawLeaf(Graphics p,int xPoints[],int yPoints[],int h,int w,int angle,int order){
 		//p.drawOval(xPoints, yPoints, w, h);
-		p.drawOval(xPoints, yPoints, w, h);
+		
+	//	p.fillPolygon(p.drawPolygon(xPoints, yPoints, 1));
+		
+		p.fillPolygon(xPoints, yPoints, 1);
+		//p.drawOval(xPoints, yPoints, w, h);
 	}
 	
 	 
