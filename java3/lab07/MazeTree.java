@@ -89,7 +89,7 @@ public class MazeTree {
 	private boolean valid(int[][] grid, int row, int column){
 		if(row>=0&&column>=0)
 		if(row<grid.length&&column<grid[row].length&&grid[row][column]!=9)
-		if (grid[row][column]==1||grid[row][column]==0){
+		if (grid[row][column]==1){
 			return true;
 		}
 		return false;
@@ -97,22 +97,49 @@ public class MazeTree {
 
 	private String depthFirstSearch(TreeNode thisNode){
 		String node = thisNode.toString();
-		String path = null;
+		
+		String path = "";
 		TreeNode last= new TreeNode(7,12);
-		if(node==last.toString()) return node;
-		else{
+		
+		if(node.equals(last.toString())) {
 			
-			if(thisNode.east!=null){ path=depthFirstSearch(thisNode.east); if (path!="") return node+path;}
-			if(thisNode.west!=null){ path=depthFirstSearch(thisNode.west);if (path!="") return node+path;}
-			if(thisNode.north!=null){ path=depthFirstSearch(thisNode.north);if (path!="") return node+path;}
-			if(thisNode.south!=null){ path=depthFirstSearch(thisNode.south);if (path!="") return node+path;}
+			return node;
+			}
+		
+		else{
+			if(thisNode.east!=null){
+				path=depthFirstSearch(thisNode.east);
+				if (path!="") {
+					return node+path;
+				}
+			}
+			if(thisNode.west!=null){
+				path=depthFirstSearch(thisNode.west);
+				if (path!=""){ 
+					return node+path;
+				}
+			}
+			if(thisNode.north!=null){ 
+				path=depthFirstSearch(thisNode.north);
+				if (path!="") {
+					return node+path;
+				}
+			}
+			if(thisNode.south!=null){
+				path=depthFirstSearch(thisNode.south);
+				if (path!="") {
+					
+					return node+path;
+					
+				}
+			}
 		}return "";
 	}
 
 	public String depthFirstSearch(){
-		TreeNode first= new TreeNode(0,0);
 		
-		return depthFirstSearch(first);
+		
+		return depthFirstSearch(root);
 	}
 
 	/**
@@ -129,7 +156,7 @@ public class MazeTree {
                 {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1} };
 		MazeTree m =new MazeTree(grid);
-		
+	
 		System.out.println(m.depthFirstSearch());
 
 
