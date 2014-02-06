@@ -5,15 +5,17 @@ import javax.xml.stream.events.Characters;
 
 
 public class Calculator {
+	
 	Stack<String> operand;
 	Stack<String> operator;
-	Double r=0.0;
+
+	
 	public Calculator(StringTokenizer st) throws StackException {
 		// TODO Auto-generated constructor stub
+		
 		operand  = new Stack<String>();
 		operator = new Stack<String>();
-
-
+		
 		while (st.hasMoreElements()) { //more tokens exist
 			String nextToken = st.nextToken();
 			switch(nextToken){ //switch nextToken			
@@ -64,48 +66,31 @@ public class Calculator {
 				operand.push(nextToken);
 				break;
 			}
-
-
-		}while(!operator.isEmpty()){
+		}
+		while(!operator.isEmpty()){
 			eval(operand.pop(),operand.pop(),operator.pop());
-		}System.out.println(operand.look());
-
-
+		}
+		System.out.println(operand.look());
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
 	// TODO Auto-generated catch block
-
-
-
-	public void eval(String s2, String s1, String operator) throws StackException{
+	public void eval(String s1, String s2, String operator) throws StackException{
 		double result=0;
 		/*		System.out.println(s1);
 		System.out.println(s2);
 		System.out.println(operator);*/
 		switch(operator){
 		case "+":
-			result=Double.valueOf(s2)+Double.valueOf(s1);
+			result=Double.valueOf(s1)+Double.valueOf(s2);
 			break;
 		case "*":
-			result=Double.valueOf(s1)*Double.valueOf(s2);
+			result=Double.valueOf(s2)*Double.valueOf(s1);
 			break;
 		case "/":
-			result=Double.valueOf(s1)/Double.valueOf(s2);
+			result=Double.valueOf(s2)/Double.valueOf(s1);
 			break;
 		case "-":
-			result=Double.valueOf(s2)-Double.valueOf(s1);
+			result=Double.valueOf(s1)-Double.valueOf(s2);
 			break;
 		}
 		operand.push(String.valueOf(result));
