@@ -1,3 +1,4 @@
+package lab06;
 public class Stack<D>{     
 	private class Node{
 		private D data;

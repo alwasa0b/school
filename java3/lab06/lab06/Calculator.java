@@ -1,7 +1,10 @@
+package lab06;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import javax.xml.stream.events.Characters;
+
+
 
 
 public class Calculator {

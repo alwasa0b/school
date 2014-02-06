@@ -1,3 +1,4 @@
+package lab06;
 
 public class StackException extends Exception{
 
