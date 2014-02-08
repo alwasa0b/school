@@ -20,16 +20,27 @@ public class philosopher implements Runnable{
     Color pupilColor=Color.cyan;
     Point location;
     int status;
-    Thread t;
-   
+	private String name;
+	Thread t;
+	
+    public philosopher(){
+    	this.name=name;
+    }
+    
 	@Override
 	public void run() {
-		t = new Thread(this);
-		t.start(); 
+		t = new Thread(name);
+		t.start();
+		while(true){
+			changeStatus();
+		}
+		
+		
+		
 		
 	}
 	public void start() {
-
+		
 	}
 	
     public void changeStatus(){
@@ -37,9 +48,10 @@ public class philosopher implements Runnable{
     	
     }
     
-	public philosopher(Point location) {
+	public philosopher(Point location,String name) {
 		// TODO Auto-generated constructor stub
 		this.location=location;
+		this.name=name;
 	}
 
 	/**

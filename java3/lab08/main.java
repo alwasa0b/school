@@ -6,17 +6,18 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 
-public class main extends Applet implements Runnable{
+public class main extends Applet{
 
 	private static final int APPLET_WIDTH = 400;
 	private static final int APPLET_HEIGHT = 400;
 	public static Color chopStickColor=Color.red;
-	
+	Point [] pts = new Point[5];
 	Thread philTreah[]=new Thread[5];
 	Thread thisApp;
-	philosopher [] p=new philosopher[5];
-	
+	philosopher[] p=new philosopher[5];
 	chopstick [] c=new chopstick[5];
+	
+	
 	
 	public main() {
 		// TODO Auto-generated constructor stub
@@ -34,8 +35,63 @@ public class main extends Applet implements Runnable{
 	public void init(){
 		   setSize(APPLET_WIDTH, APPLET_HEIGHT);
 		   setBackground(new Color(220,255,255));
+		   
+			
+			
+		  
+	}
+	public void paintObj(Graphics page){
+		drawPoints(pts);
+		   p[0] = new philosopher(pts[0],"p1");
+		   p[1] = new philosopher(pts[1],"p2");
+		   p[2] = new philosopher(pts[2],"p3");
+		   p[3] = new philosopher(pts[3],"p4");
+		   p[4] = new philosopher(pts[4],"p5");
+		   philTreah[0]= new Thread(p[0]);{
+		         philTreah[0].start();
+		         p[0].draw(page);
+			}
+			
+			philTreah[1]= new Thread(p[1]);{
+		         philTreah[1].start();
+		         p[1].draw(page);
+			}
+			
+			philTreah[2]= new Thread(p[2]);{
+		         philTreah[2].start();
+		         p[2].draw(page);
+			}
+			
+			philTreah[3]= new Thread(p[3]);{
+		         philTreah[3].start();
+		         p[3].draw(page);
+		         
+			}
+			
+			philTreah[4]= new Thread(p[4]);{
+			
+		         philTreah[4].start();
+		         p[4].draw(page);
+			
+			}
+			
 	}
 	
+	public void drawPoints(Point[] p){
+		int x=0;int y=0;
+		int a = getWidth() / 5;
+	    int b = getHeight() / 2;
+	    int m = Math.min(a, b);
+	    int r = 5 * m / 5;
+	    int r2 = Math.abs(m - r) / 2;
+		for (int i = 0 ; i<=4; i++){
+			double t = 2 * Math.PI * i / 5;
+	        x = (int) Math.round(a + r * Math.cos(t));
+	        y = (int) Math.round(b + r * Math.sin(t));
+	        p[i]=(new Point((x - r2)+50,( y - r2)-20));
+		}
+		
+	}
 	
 	public void drawPhilosopher(Graphics page, philosopher[] p){
 		int x=0;int y=0;
@@ -49,10 +105,11 @@ public class main extends Applet implements Runnable{
 	        x = (int) Math.round(a + r * Math.cos(t));
 	        y = (int) Math.round(b + r * Math.sin(t));
 	     
-	        p[i]=new philosopher(new Point((x - r2)+50,( y - r2)-20));
+	        p[i]=new philosopher(new Point((x - r2)+50,( y - r2)-20),("philosopher"+i));
 	        philTreah[i] = new Thread(p[i]);
+	        p[i].run();
 	        p[i].draw(page);
-	        //philTreah[i].start();
+	       
 		}
 		
 	}
@@ -82,26 +139,28 @@ public class main extends Applet implements Runnable{
 		//p[0].draw(this.getGraphics());
 		//p[0].changeStatus();
 		//
-	//	drawPhilosopher(page,p);
 		
-		//drawSticks(page,c);
+		paintObj(page);
+		
+		while(true){
+			paintObj(page);
+			update(page);
+		}
 	
-		
-		//p[0].draw(page);
-		
+
 	
 	}
 	
 	public void update(Graphics g){
 		paint(g);
 	}
-	public void start(){
 	
-		thisApp=new Thread(this);
+	public void start(){
 		
-		thisApp.start();
+	
+			
 		
-		//drawPhilosopher(this.getGraphics(),p);
+	
 		
 		
 		
@@ -110,42 +169,14 @@ public class main extends Applet implements Runnable{
 		
 	}
 	public void run(){
-		//
-		//p[0].draw(this.getGraphics());
-		
-		//philTreah[0].start();
-		  
-		//philTreah[0].start();
-		//t.start();
-		philTreah[0]=new Thread(p[0]);
-		p[0]=new philosopher(new Point(50,50));
-		philTreah[0].start();
-		while(true){		
-			update(this.getGraphics());
-			//drawPhilosopher(this.getGraphics(),p);
-	
-			p[0].draw(this.getGraphics());
-			
-			System.out.println(philTreah[0].isAlive());
-		//philTreah[1].start();
-		
-		try {
-			thisApp.sleep(500);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	
-		 //p[0].draw(this.getGraphics());
-		// philTreah[2]=new Thread(p[2]);
-	    
-	    
+	    }
 	     
 	 
 	
-		}
 		
-	}
+		
+
+
 	
 	
 	public static void main(String[] args) {
