@@ -22,6 +22,8 @@ public class philosopher implements Runnable{
     int status;
 	private String name;
 	Thread t;
+	int sleep=50;
+	main at;
 	
     public philosopher(){
     	this.name=name;
@@ -29,29 +31,50 @@ public class philosopher implements Runnable{
     
 	@Override
 	public void run() {
-		t = new Thread(name);
-		t.start();
+		
 		while(true){
-			changeStatus();
+			try {
+				Thread.sleep(sleep);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				
+			}
+			
+			draw(at.getGraphics());
 		}
-		
-		
-		
-		
+             
 	}
+		
+		
+		
+	public void setSleep(int sleep){
+		this.sleep=sleep;
+	}
+		
+	public int getSleep(){
+		return this.sleep;
+	}	
+		
+		
+	
+
+
 	public void start() {
 		
 	}
 	
-    public void changeStatus(){
-    	this.status = new Random().nextInt(4);
+    public void changeStatus(int status){
+    	
+    	
+    	this.status = status;
     	
     }
     
-	public philosopher(Point location,String name) {
+	public philosopher(Point location,String name,main at) {
 		// TODO Auto-generated constructor stub
 		this.location=location;
 		this.name=name;
+		this.at=at;
 	}
 
 	/**

@@ -1,4 +1,5 @@
 import java.applet.*;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -15,11 +16,49 @@ public class main extends Applet{
 	Thread philTreah[]=new Thread[5];
 	Thread thisApp;
 	philosopher[] p=new philosopher[5];
-	chopstick [] c=new chopstick[5];
+	chopstick c;
+	philosopher pp ,pp2;
+	Thread ppt,ppt2;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
 	public main() {
+		
+		
+		
+		
+		
+	
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -37,66 +76,37 @@ public class main extends Applet{
 		   setSize(APPLET_WIDTH, APPLET_HEIGHT);
 		   setBackground(new Color(220,255,255));
 		  
-			this.start();
-			
+		   this.start();
+		   paintObj(this.getGraphics());
+		   drawSticks(this.getGraphics(),c)	;
 		  
 	}
 	public void paintObj(Graphics page){
 		drawPoints(pts);
-		   p[0] = new philosopher(pts[0],"p1");
-		   p[1] = new philosopher(pts[1],"p2");
-		   p[2] = new philosopher(pts[2],"p3");
-		   p[3] = new philosopher(pts[3],"p4");
-		   p[4] = new philosopher(pts[4],"p5");
+		Random rnd = new Random();
+		   p[0] = new philosopher(pts[0],"p1",this);
+		   p[1] = new philosopher(pts[1],"p2",this);
+		   p[2] = new philosopher(pts[2],"p3",this);
+		   p[3] = new philosopher(pts[3],"p4",this);
+		   p[4] = new philosopher(pts[4],"p5",this);
 		   philTreah[0]= new Thread(p[0]);{
-		         philTreah[0].start();
-		         try {
-						philTreah[0].sleep(55);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			         p[0].draw(page);
-			}
-			
+			   philTreah[0].start();
+			   
+		   }
 			philTreah[1]= new Thread(p[1]);{
-		         philTreah[1].start();
-		         try {
-					philTreah[1].sleep(500);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		         p[1].draw(page);
+				philTreah[1].start();
+				
 			}
-			
 			philTreah[2]= new Thread(p[2]);{
-		         philTreah[2].start();
-		         try {
-						philTreah[2].sleep(50);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			         p[2].draw(page);
+				philTreah[2].start();
+				
 			}
-			
 			philTreah[3]= new Thread(p[3]);{
-		         philTreah[3].start();
-		         try {
-						philTreah[3].sleep(5);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-			         p[3].draw(page);
-		         
+				philTreah[3].start();
+				
 			}
-			
 			philTreah[4]= new Thread(p[4]);{
-			
-		         philTreah[4].start();
-		         p[4].draw(page);
+				philTreah[4].start();
 			
 			}
 			
@@ -118,7 +128,7 @@ public class main extends Applet{
 		
 	}
 	
-	public void drawPhilosopher(Graphics page, philosopher[] p){
+	/*public void drawPhilosopher(Graphics page, philosopher[] p){
 		int x=0;int y=0;
 		int a = getWidth() / 5;
 	    int b = getHeight() / 2;
@@ -137,21 +147,22 @@ public class main extends Applet{
 	       
 		}
 		
-	}
+	}*/
 	
-	public void drawSticks(Graphics page, chopstick[] c){
+	public void drawSticks(Graphics page, chopstick c){
+		
 		int x=0;int y=0;
 		int a = getWidth()/4;
 	    int b = getHeight()/4 ;
 	    int m = Math.min(a, b);
 	    int r = 5 * m / 5;
 	    int r2 = Math.abs(m - r) / 2;
-		for (int i = 0 ; i<=3; i++){
+		for (int i = 0 ; i>4; i++){
 			double t = 2 * Math.PI * i / 5;
 	        x = (int) Math.round(a + r * Math.cos(t));
 	        y = (int) Math.round(b + r * Math.sin(t));
-	        c[i]=new chopstick(new Rectangle((x - r2),( y - r2),3,70));
-	        c[i].draw(page);
+	        c = new chopstick(new Rectangle((x - r2),( y - r2),3,70));
+	        c.draw(page);
 		}
 		
 	}
@@ -164,34 +175,38 @@ public class main extends Applet{
 		//p[0].draw(this.getGraphics());
 		//p[0].changeStatus();
 		//
+	
 		
-		paintObj(page);
 		
-		while(true){			
+		Random rnd = new Random();
+		
+		while(true){	
+			p[0].setSleep(rnd.nextInt(5000));
+			System.out.println(p[0].getSleep());
+			p[1].setSleep(rnd.nextInt(5000));
+			
+			p[2].setSleep(rnd.nextInt(5000));
+			p[3].setSleep(rnd.nextInt(5000));
+			p[4].setSleep(rnd.nextInt(5000));
+			
 			repaint();
+			
 		}
 	
 
 	
 	}
 	
-	public void update(Graphics g){
-		paint(g);
+	public void update(){
+	
+		
+		
 	}
 	
 	public void start(){
-		
-		
-			
-		paintObj(this.getGraphics());
 	
-		
-		
-		
-	
-		
-		
 	}
+	
 	public void run(){
 		
 	    }
