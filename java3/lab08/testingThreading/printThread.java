@@ -3,6 +3,7 @@ package testingThreading;
 public class printThread implements Runnable{
 	String name;
 	Thread t;
+	int num=0;
 	int newPriority;
 	public printThread(String name) {
 		// TODO Auto-generated constructor stub
@@ -20,11 +21,14 @@ public class printThread implements Runnable{
 		
 
 	}
+	public synchronized void setNum(int n){
+		this.num=n;
+	}
 
 	/**
 	 * @param args
 	 */
-	public int fib(int n){
+	public synchronized int fib(int n){
 		 if (n < 2) {
              return n;
           }
@@ -37,8 +41,8 @@ public class printThread implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		t=new Thread(this,name);
-		
-		System.out.println(fib(48)+" "+t.getName()+" "+t.getPriority());
+	
+		System.out.println(fib(num)+" "+t.getName()+" "+t.getPriority());
 	}
 
 }

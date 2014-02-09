@@ -20,6 +20,7 @@ public class main extends Applet{
 	
 	
 	public main() {
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,8 +36,8 @@ public class main extends Applet{
 	public void init(){
 		   setSize(APPLET_WIDTH, APPLET_HEIGHT);
 		   setBackground(new Color(220,255,255));
-		   
-			
+		  
+			this.start();
 			
 		  
 	}
@@ -49,22 +50,46 @@ public class main extends Applet{
 		   p[4] = new philosopher(pts[4],"p5");
 		   philTreah[0]= new Thread(p[0]);{
 		         philTreah[0].start();
-		         p[0].draw(page);
+		         try {
+						philTreah[0].sleep(55);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			         p[0].draw(page);
 			}
 			
 			philTreah[1]= new Thread(p[1]);{
 		         philTreah[1].start();
+		         try {
+					philTreah[1].sleep(500);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		         p[1].draw(page);
 			}
 			
 			philTreah[2]= new Thread(p[2]);{
 		         philTreah[2].start();
-		         p[2].draw(page);
+		         try {
+						philTreah[2].sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			         p[2].draw(page);
 			}
 			
 			philTreah[3]= new Thread(p[3]);{
 		         philTreah[3].start();
-		         p[3].draw(page);
+		         try {
+						philTreah[3].sleep(5);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			         p[3].draw(page);
 		         
 			}
 			
@@ -142,9 +167,8 @@ public class main extends Applet{
 		
 		paintObj(page);
 		
-		while(true){
-			paintObj(page);
-			update(page);
+		while(true){			
+			repaint();
 		}
 	
 
@@ -157,9 +181,9 @@ public class main extends Applet{
 	
 	public void start(){
 		
-	
-			
 		
+			
+		paintObj(this.getGraphics());
 	
 		
 		
@@ -169,6 +193,7 @@ public class main extends Applet{
 		
 	}
 	public void run(){
+		
 	    }
 	     
 	 
