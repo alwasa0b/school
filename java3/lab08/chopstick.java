@@ -7,15 +7,24 @@ import java.awt.Rectangle;
 public class chopstick {
 	Rectangle location;
 	int available=-4;
+	
+	synchronized int getAvailable() {
+		return available;
+	}
+
+	synchronized void setAvailable(int available) {
+		this.available = available;
+	}
+
 	public chopstick(Rectangle location2) {
 		// TODO Auto-generated constructor stub
 		this.location=location2;
 	}
 
-	public void pick(){
+	synchronized public void pick(){
 		available+=1;
 	}
-	public void release(){
+	synchronized public void release(){
 		available-=1;
 	}
 	/**

@@ -19,10 +19,10 @@ public class philosopher implements Runnable{
     Color mouthColor=Color.black;
     Color pupilColor=Color.cyan;
     Point location;
-    int status;
+    int status=THINK;
 	private String name;
 	Thread t;
-	int sleep=50;
+	int sleep;
 	main at;
 	
     public philosopher(){
@@ -31,17 +31,15 @@ public class philosopher implements Runnable{
     
 	@Override
 	public void run() {
-		
 		while(true){
-			try {
-				Thread.sleep(sleep);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				
-			}
+		try {
+			Thread.sleep(sleep);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			
-			draw(at.getGraphics());
 		}
+		
+		draw(at.getGraphics());}
              
 	}
 		
@@ -63,10 +61,28 @@ public class philosopher implements Runnable{
 		
 	}
 	
-    public void changeStatus(int status){
+    public void changeStatus(chopstick c,main m){
+    	if(this.status==THINK||this.status==HUNGRY){
+    		if(c.getAvailable()<=0){
+    			this.status=EAT;
+    			c.setAvailable(c.available+2);
+    		}
+    		else if(this.status!=HUNGRY){
+    			this.status=HUNGRY;
+    		}
+    	}
+    	else if(this.status==EAT){
+    		c.setAvailable(c.available-2);
+    		this.status=THINK;
+    	}
+    	else if(this.status==HUNGRY){
+    		this.status=FAMISHED;
+    	}
+    	else if(this.status==FAMISHED){
+    		this.status=STARVE;
+    	}
     	
-    	
-    	this.status = status;
+  
     	
     }
     

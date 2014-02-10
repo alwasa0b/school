@@ -168,27 +168,32 @@ public class main extends Applet{
 	}
 	
 	public void paint(Graphics page){
-		//Rectangle location2 = new Rectangle(100,55,3,70);
+		Rectangle location2 = new Rectangle(100,55,3,70);
 		//page.drawOval(APPLET_WIDTH/2-110, APPLET_HEIGHT/2-110, 210, 210);
 		
-		//c[0]=new chopstick(location2);
+		c=new chopstick(location2);
+		c.draw(page);
 		//p[0].draw(this.getGraphics());
 		//p[0].changeStatus();
 		//
-	
+		//drawSticks(page,c);
 		
 		
 		Random rnd = new Random();
 		
 		while(true){	
-			p[0].setSleep(rnd.nextInt(5000));
+			p[4].setSleep(rnd.nextInt(25));
+			p[4].changeStatus(c,this);
+			
 			System.out.println(p[0].getSleep());
-			p[1].setSleep(rnd.nextInt(5000));
-			
-			p[2].setSleep(rnd.nextInt(5000));
-			p[3].setSleep(rnd.nextInt(5000));
-			p[4].setSleep(rnd.nextInt(5000));
-			
+			p[1].setSleep(rnd.nextInt(25));
+			p[1].changeStatus(c,this);
+			p[2].setSleep(rnd.nextInt(1));
+			p[2].changeStatus(c,this);
+			p[3].setSleep(rnd.nextInt(2500));
+			p[3].changeStatus(c,this);
+			p[0].setSleep(rnd.nextInt(2500));
+			p[0].changeStatus(c,this);
 			repaint();
 			
 		}
