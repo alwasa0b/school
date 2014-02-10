@@ -19,6 +19,7 @@ public class main extends Applet{
 	chopstick c;
 	philosopher pp ,pp2;
 	Thread ppt,ppt2;
+	int sleep;
 	
 	
 	
@@ -79,7 +80,7 @@ public class main extends Applet{
 		   this.start();
 		   paintObj(this.getGraphics());
 		   drawSticks(this.getGraphics(),c)	;
-		  
+		   
 	}
 	public void paintObj(Graphics page){
 		drawPoints(pts);
@@ -182,21 +183,22 @@ public class main extends Applet{
 		Random rnd = new Random();
 		
 		while(true){	
-			p[4].setSleep(rnd.nextInt(25));
+			
+			//System.out.println(c.getAvailable());
+		 
+			p[4].setSleep(rnd.nextInt(200));
 			p[4].changeStatus(c,this);
-			
-			System.out.println(p[0].getSleep());
-			p[1].setSleep(rnd.nextInt(25));
+			p[1].setSleep(rnd.nextInt(200));
 			p[1].changeStatus(c,this);
-			p[2].setSleep(rnd.nextInt(1));
+			p[2].setSleep(rnd.nextInt(200));
 			p[2].changeStatus(c,this);
-			p[3].setSleep(rnd.nextInt(2500));
+			p[3].setSleep(rnd.nextInt(200));
 			p[3].changeStatus(c,this);
-			p[0].setSleep(rnd.nextInt(2500));
+			p[0].setSleep(rnd.nextInt(200));
 			p[0].changeStatus(c,this);
-			repaint();
+			repaint();}
 			
-		}
+		
 	
 
 	
@@ -209,7 +211,7 @@ public class main extends Applet{
 	}
 	
 	public void start(){
-	
+		
 	}
 	
 	public void run(){
