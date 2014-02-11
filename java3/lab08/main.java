@@ -19,8 +19,9 @@ public class main extends Applet{
 	philosopher[] p=new philosopher[5];
 	chopstick c[] = new chopstick[6];
 	philosopher pp ,pp2;
+	private Image i;
+	public Graphics doubleG;
 	Thread ppt,ppt2;
-	Image temp;
 	int sleep;
 	volatile static int numOfSticks=5;
 	
@@ -39,17 +40,19 @@ public class main extends Applet{
 		  
 		   this.start();
 		   paintObj(this.getGraphics());
-		   drawSticks(this.getGraphics(),c);
-		   
+		   //drawSticks(this.getGraphics(),c);
+		
 	}
 	public void paintObj(Graphics page){
 		drawPoints(pts);
+		
+
 		Random rnd = new Random();
-		   p[0] = new philosopher(pts[0],"p1",this);
-		   p[1] = new philosopher(pts[1],"p2",this);
-		   p[2] = new philosopher(pts[2],"p3",this);
-		   p[3] = new philosopher(pts[3],"p4",this);
-		   p[4] = new philosopher(pts[4],"p5",this);
+		   p[0] = new philosopher(pts[0],"0",this);
+		   p[1] = new philosopher(pts[1],"1",this);
+		   p[2] = new philosopher(pts[2],"2",this);
+		   p[3] = new philosopher(pts[3],"3",this);
+		   p[4] = new philosopher(pts[4],"4",this);
 		   philTreah[0]= new Thread(p[0]);{
 			   philTreah[0].start();
 			   
@@ -97,14 +100,23 @@ public class main extends Applet{
 	    int m = Math.min(a, b);
 	    int r = 5 * m / 5;
 	    int r2 = Math.abs(m - r) / 2;
-		for (int i = 0 ; i<numOfSticks; i++){
+		for (int i = 0 ; i<=numOfSticks; i++){
 			double t = 2 * Math.PI * i / 5;
 	        x = (int) Math.round(a + r * Math.cos(t))+50;
 	        y = (int) Math.round(b + r * Math.sin(t))+50;
 	        c[i] = new chopstick(new Rectangle((x - r2),( y - r2),3,70));
-	        c[i].draw(temp);
+	        c[i].draw(page);
 		}
 		
+	}
+	public void clear(Graphics g){
+		if(i==null){i=createImage(this.getSize().width,this.getSize().height);doubleG =i.getGraphics();}
+		doubleG.setColor(getBackground());
+		
+		doubleG.fillRect(0, 0, this.getSize().width, this.getSize().height);
+		doubleG.setColor(getForeground());
+		paint(doubleG);
+		g.drawImage(i,0,0,this);
 	}
 	
 	public void paint(Graphics page){
@@ -123,9 +135,9 @@ public class main extends Applet{
 		while(true){	
 			
 			//System.out.println(c.getAvailable());
-			
 			p[4].setSleep(rnd.nextInt(1500));
 			p[4].changeStatus(this);
+			
 			p[1].setSleep(rnd.nextInt(1500));
 			p[1].changeStatus(this);
 			p[2].setSleep(rnd.nextInt(1500));
@@ -134,9 +146,8 @@ public class main extends Applet{
 			p[3].changeStatus(this);
 			p[0].setSleep(rnd.nextInt(1500));
 			p[0].changeStatus(this) ;
-			drawSticks(page,c);
-			paint(temp);
-			page.drawImage(temp,0,0,this);
+			
+			repaint();
 			}
 			
 		
@@ -145,11 +156,7 @@ public class main extends Applet{
 	
 	}
 	
-	public void update(){
-	
-		
-		
-	}
+
 	
 	public void start(){
 		

@@ -1,15 +1,30 @@
+
+public class save {
+
+	public save() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
+/*
+
 import java.awt.Color;
-import java.applet.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.Random;
 
-
 public class philosopher implements Runnable{
-	private Image im;
+	
 	static final int SIZE = 45;
 	static final int HUNGRY = 0;
 	static final int FAMISHED = 1;
@@ -24,6 +39,7 @@ public class philosopher implements Runnable{
     Point location;
     int status=THINK;
     static int numOfTry=1;
+    private volatile int using=2;
     int numOfTries=1;
     
 	public String getStatus() {
@@ -66,21 +82,10 @@ public class philosopher implements Runnable{
 			// TODO Auto-generated catch block
 			
 		}
-		
-		draw(at.doubleG);
-		
-/*		Graphics doubleG = null;
-		if(im==null){im=at.createImage(at.getSize().width,at.getSize().height);doubleG =im.getGraphics();}
-		
-		doubleG.setColor(at.getBackground());
-		doubleG.fillRect(0, 0, at.getSize().width, at.getSize().height);
-		doubleG.setColor(at.getForeground());
-		at.paint(doubleG);
-		at.getGraphics().drawImage(im,0,0,at);
-		
-		at.repaint();
-		//at.clear(at.getGraphics());
-*/	
+		at.drawSticks(at.getGraphics(), at.c);
+		draw(at.getGraphics());
+             
+	
 		}
 		
 	}
@@ -100,67 +105,154 @@ public class philosopher implements Runnable{
 		
 	}
 	
+	synchronized int[] checkneighbors(String f){
+		int x[]=new int[2];
+		int i = Integer.valueOf(f);
+		if(i==0 || i==4){
+			if(i==0) x[0]=4;x[1]=1;
+			if(i==4) x[0]=3;x[1]=0;
+		}
+		else{
+			x[0]=i-1;
+			x[1]=i+1;
+		}
+		
+		return x;
+	}
+	
+	*//**
+	 * @param args
+	 * @return number of sticks available after checking the neighbors
+	 *//*
+	synchronized int checkPhilosopher(int before, int after){
+		if(Integer.valueOf(before)+Integer.valueOf(after)>=2) return 2;
+		if(Integer.valueOf(before)+Integer.valueOf(after)==1) return 1;
+		else return 0;
+	}
+	
 	synchronized void changeStatus(main m){
-		System.out.println("name "+name+" Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+m.numOfSticks);
-		if(this.status==THINK){
-			if(m.numOfSticks>=2){
-				m.numOfSticks-=2;
-				numOfTries=numOfTry;
-				this.setStatus(EAT);
-			}
+		System.out.println("name "+name+" Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+using+" "+m.p[2].using);
+		
+		if(checkPhilosopher(m.p[checkneighbors(this.name)[0]].using,m.p[checkneighbors(this.name)[1]].using)==2&&this.status!=EAT&&this.status!=STARVE){
+						if((m.p[checkneighbors(this.name)[0]].using==2)){
+							m.p[checkneighbors(this.name)[0]].using-=1;
+						}
+						
+						if((m.p[checkneighbors(this.name)[1]].using==2)){
+							m.p[checkneighbors(this.name)[1]].using-=1;
+						}
+						
+						using=0;
+						numOfTries=numOfTry;
+						this.setStatus(EAT);
+				
+				
 			
-			else{
-				this.setStatus(HUNGRY);
-				if(numOfTries>0)numOfTries--;
-				else this.setStatus(STARVE);
+		}else
+			if(checkPhilosopher(m.p[checkneighbors(this.name)[0]].using,m.p[checkneighbors(this.name)[1]].using)==1&&this.status!=EAT&&this.status!=STARVE){
+				if(this.status==THINK){
+						if(using==1){using=1;this.setStatus(EAT);numOfTries=numOfTry;
+						if((m.p[checkneighbors(this.name)[0]].using==1)){
+							m.p[checkneighbors(this.name)[0]].using-=1;
+						}
+						
+						if((m.p[checkneighbors(this.name)[1]].using==1)){
+							m.p[checkneighbors(this.name)[1]].using-=1;
+						}
+						
+						}
+						else{
+						numOfTries-=1;
+						this.setStatus(HUNGRY);}
+						}
+				else if(this.status==HUNGRY){
+					
+					if(using==1){using=1;this.setStatus(EAT);numOfTries=numOfTry;
+					if((m.p[checkneighbors(this.name)[0]].using==1)){
+						m.p[checkneighbors(this.name)[0]].using-=1;
+					}
+					
+					if((m.p[checkneighbors(this.name)[1]].using==1)){
+						m.p[checkneighbors(this.name)[1]].using-=1;
+					}}
+					else{
+					numOfTries-=1;
+					this.setStatus(FAMISHED);}
+					}
+					
+					
+					else if(this.status==FAMISHED){
+						
+						if(using==1){using=1;this.setStatus(EAT);numOfTries=numOfTry;
+						if((m.p[checkneighbors(this.name)[0]].using==1)){
+							m.p[checkneighbors(this.name)[0]].using-=1;
+						}
+						
+						if((m.p[checkneighbors(this.name)[1]].using==1)){
+							m.p[checkneighbors(this.name)[1]].using-=1;
+						}}
+						
+						else if(numOfTries>0){
+							numOfTries-=1;
+							this.setStatus(FAMISHED);}
+						else {
+							this.setSleep(STARVE);
+						}
+						}
+				
+							
+					
+					
 				
 			}
-			
-		}
+			else
+				 if(checkPhilosopher(m.p[checkneighbors(this.name)[0]].using,m.p[checkneighbors(this.name)[1]].using)==0&&this.status!=EAT&&this.status!=STARVE){
+					if(this.status==THINK){
+							
+							numOfTries-=1;
+							this.setStatus(HUNGRY);
+							}
+					else if(this.status==HUNGRY){
+						
+							
+							numOfTries-=1;
+							this.setStatus(FAMISHED);}
+						
+						
+						else if(this.status==FAMISHED){
+							
+							
+								if(numOfTries>0){
+									numOfTries-=1;
+									this.setStatus(FAMISHED);}
+								else {
+									this.setSleep(STARVE);
+								}
+								}
+						
+						
+					
+				}else if(this.status==EAT){
+					this.status=THINK;
+					numOfTries=numOfTry;
+					using=2;
+					if((m.p[checkneighbors(this.name)[0]].using==2)){
+						m.p[checkneighbors(this.name)[0]].using-=1;
+					}
+					
+					if((m.p[checkneighbors(this.name)[1]].using==2)){
+						m.p[checkneighbors(this.name)[1]].using-=1;
+					}
+				}else{
+					System.err.println("name "+name+" Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+using+" "+m.p[2].using);
+				}
 		
-		else if(this.status==HUNGRY){
-			if(m.numOfSticks>=2){
-				m.numOfSticks-=2;
-				numOfTries=numOfTry;
-				this.setStatus(EAT);
-			}
-			else{
-				this.setStatus(FAMISHED);
-				if(numOfTries>0)numOfTries--;
-				else this.setStatus(STARVE);
-			}
-			
-		}
 		
-		else if(this.status==FAMISHED){
-			if(m.numOfSticks>=2){
-				m.numOfSticks-=2;
-				numOfTries=numOfTry;;
-				this.setStatus(EAT);
-			}
-			else if (numOfTries>0){
-				if(numOfTries>0)numOfTries--;
-				else this.setStatus(STARVE);
-			}
-			else if(numOfTries==0) {
-				System.out.println("bamm");
-				this.setStatus(STARVE);
-			}
-			
-		}
-		else if(this.status==EAT){
-			m.numOfSticks+=2;
-			numOfTries=numOfTry;
-			this.setStatus(THINK);
-			
-		}
-		else if(this.status==STARVE){
-			this.status=STARVE;
-		}
 		
-		else{
-			System.err.println("Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+m.numOfSticks);
-		}
+		
+		
+		
+		
     }
     
 	public philosopher(Point location,String name,main at) {
@@ -170,9 +262,9 @@ public class philosopher implements Runnable{
 		this.at=at;
 	}
 
-	/**
+	*//**
 	 * @param args
-	 */
+	 *//*
 	   public void draw(Graphics page)
 	   {  int       startX, startY, height, width;
 	      Rectangle spot;
@@ -235,8 +327,7 @@ public class philosopher implements Runnable{
 	            height = 30;
 	            spot   = new Rectangle(startX,startY,width,height);
 	            main.fatLine(page,spot,new Dimension(3,3)); 
-	        
-	      	case THINK:
+	         case THINK:
 	        	
 	            startX = location.x + SIZE/4;   // Draw pupils.
 	            startY = location.y + SIZE/4;
@@ -293,4 +384,4 @@ public class philosopher implements Runnable{
 
 
 
-}
+}*/
