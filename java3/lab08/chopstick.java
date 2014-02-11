@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 
 class chopstick {
 	Rectangle location;
-	volatile static int available=-4;
+	int available=-4;
 	
 	synchronized int getAvailable() {
 		return available;
@@ -31,7 +31,7 @@ class chopstick {
 	 * @param args
 	 */
 	public void draw(Graphics page) {  
-		if (available>0){
+		if (available<0){
 			page.setColor(main.chopStickColor);
 	        main.fatLine(page, location, new Dimension(5,5));
 	    }  

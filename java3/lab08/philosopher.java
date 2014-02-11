@@ -20,7 +20,9 @@ public class philosopher implements Runnable{
     Color pupilColor=Color.cyan;
     Point location;
     int status=THINK;
-    volatile int numOfTries=1;
+    static int numOfTry=2;
+    int numOfTries=2;
+    
 	public String getStatus() {
 		String s = null;
 		if(this.status==0) s= "HUNGRY";
@@ -61,7 +63,7 @@ public class philosopher implements Runnable{
 			
 		}
 		
-		draw(at.getGraphics());
+		draw(at.temp);
              
 	
 		}
@@ -83,65 +85,67 @@ public class philosopher implements Runnable{
 		
 	}
 	
-	synchronized void changeStatus(chopstick c,main m){
+	synchronized void changeStatus(main m){
+		System.out.println("name "+name+" Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+m.numOfSticks);
+		if(this.status==THINK){
+			if(m.numOfSticks>=2){
+				m.numOfSticks-=2;
+				numOfTries=numOfTry;
+				this.setStatus(EAT);
+			}
+			
+			else{
+				this.setStatus(HUNGRY);
+				if(numOfTries>0)numOfTries--;
+				else this.setStatus(STARVE);
+				
+			}
+			
+		}
 		
-    	if((this.status==THINK)&&c.getAvailable()%2==0&&c.getAvailable()!=0&&numOfTries>0){
-    		c.pick(2);    
-    		this.status=EAT;
-    		numOfTries=1;    		
-    	}
-    	
-    	if((this.status==THINK)&&c.getAvailable()%3==0&&c.getAvailable()!=0&&numOfTries>0){
-    		c.pick(2);    
-    		this.status=EAT;
-    		numOfTries=1;    		
-    	}
-    	
-    	else if(this.status==THINK&&c.getAvailable()==-1&numOfTries>0){
-    		c.pick(1); 
-    		numOfTries-=1;
-    		this.status=HUNGRY;
-    			
-    			//System.out.println("Number Sticks: "+c.getAvailable());
-    	}
-    	
-    	else if(this.status==HUNGRY&&c.getAvailable()%2==0&&c.getAvailable()!=0&numOfTries>0){
-    		c.pick(2); 
-    		numOfTries=1;
-    		this.status=EAT;
-    			
-    			//System.out.println("Number Sticks: "+c.getAvailable());
-    	}
-    	
-    	
-    	else if(this.status==EAT){
-    		c.release();
-    		this.status=THINK;
-    	}
-    	
-   
-    	else if(this.status==HUNGRY&&numOfTries>0){
-    		numOfTries--;
-    	}
-    	
-    	else if(this.status==HUNGRY&&numOfTries<=0){
-    		this.status=FAMISHED;
-    		System.out.println("bamm");
-    	}
-    
-    	
-    	else if(this.status==FAMISHED){
-    		this.status=STARVE;
-    	}
-    	else if(this.status==STARVE){
-    		this.status=STARVE;
-    	}
-    	else{
-    		System.err.println("getStatus "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+c.getAvailable());
-    	}
-   
-    	System.out.println("inside Status: "+getStatus()+" Thread: "+name+" #Tries "+this.numOfTries);
-    	
+		else if(this.status==HUNGRY){
+			if(m.numOfSticks>=2){
+				m.numOfSticks-=2;
+				numOfTries=numOfTry;
+				this.setStatus(EAT);
+			}
+			else{
+				this.setStatus(FAMISHED);
+				if(numOfTries>0)numOfTries--;
+				else this.setStatus(STARVE);
+			}
+			
+		}
+		
+		else if(this.status==FAMISHED){
+			if(m.numOfSticks>=2){
+				m.numOfSticks-=2;
+				numOfTries=numOfTry;;
+				this.setStatus(EAT);
+			}
+			else if (numOfTries>0){
+				if(numOfTries>0)numOfTries--;
+				else this.setStatus(STARVE);
+			}
+			else if(numOfTries==0) {
+				System.out.println("bamm");
+				this.setStatus(STARVE);
+			}
+			
+		}
+		else if(this.status==EAT){
+			m.numOfSticks+=2;
+			numOfTries=numOfTry;
+			this.setStatus(THINK);
+			
+		}
+		else if(this.status==STARVE){
+			this.status=STARVE;
+		}
+		
+		else{
+			System.err.println("Status "+ getStatus()+" numOfTries "+numOfTries+" numSticks "+m.numOfSticks);
+		}
     }
     
 	public philosopher(Point location,String name,main at) {
