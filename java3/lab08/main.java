@@ -40,7 +40,7 @@ public class main extends Applet{
 		  
 		   this.start();
 		   paintObj(this.getGraphics());
-		   //drawSticks(this.getGraphics(),c);
+		   drawSticks(this.getGraphics(),c);
 		
 	}
 	public void paintObj(Graphics page){
@@ -101,10 +101,7 @@ public class main extends Applet{
 	    int r = 5 * m / 5;
 	    int r2 = Math.abs(m - r) / 2;
 		for (int i = 0 ; i<=numOfSticks; i++){
-			double t = 2 * Math.PI * i / 5;
-	        x = (int) Math.round(a + r * Math.cos(t))+50;
-	        y = (int) Math.round(b + r * Math.sin(t))+50;
-	        c[i] = new chopstick(new Rectangle((x - r2),( y - r2),3,70));
+	
 	        c[i].draw(page);
 		}
 		
@@ -122,7 +119,7 @@ public class main extends Applet{
 	public void paint(Graphics page){
 		Rectangle location2 = new Rectangle(100,55,3,70);
 		//page.drawOval(APPLET_WIDTH/2-110, APPLET_HEIGHT/2-110, 210, 210);
-		
+		drawSticks(page,c);
 		
 		//p[0].draw(this.getGraphics());
 		//p[0].changeStatus();
