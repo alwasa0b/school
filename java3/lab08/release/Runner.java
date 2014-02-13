@@ -145,7 +145,7 @@ public class Runner extends Applet implements Runnable{
 					p[phil].changeStatus(c[phil-1],c[phil],phil);
 				}
 				
-				Thread.sleep(new Random().nextInt(6000));
+				Thread.sleep(new Random().nextInt(600));
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

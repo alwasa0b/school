@@ -11,11 +11,11 @@ public class Philosopher {
 	
 	Point location;
 	private static final int SIZE = 50;
-	Color faceColor=Color.DARK_GRAY;
-	Color eyeColor=Color.black;
-    Color noseColor=Color.gray;
+	Color faceColor=Color.YELLOW;
+	Color eyeColor=Color.cyan;
+    Color noseColor=Color.black;
     Color mouthColor=Color.black;
-    Color pupilColor=Color.cyan;
+    Color pupilColor=Color.black;
     boolean hasOne=false;
 
 	
@@ -27,8 +27,8 @@ public class Philosopher {
 	
 	private int status = THINK;
 	
-	private int numberOfTries = 2;
-	private static int  tries = 2;
+	private int numberOfTries = 0;
+	private static int  tries = 0;
 	
 	synchronized void hasOne(boolean b){
 		hasOne=b;
