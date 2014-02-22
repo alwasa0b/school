@@ -1,31 +1,42 @@
 import pygame as pg
 import random as rnd
 import sys,os,math
-FPS = 100
+FPS = 20
 WIDTH = 600
 HEIGHT = 400   
-
+status=0
+value=[0]
 class Square():
     def __init__(self, surf, x, y):
         self.value=rnd.randrange(1,10)
         self.Surf=surf
         self.container = pg.Rect(x, y, 80, 80)
+        self.x=x
+        self.y=y
+        self.uncovered=0
+        
     def returnValue(self):
         return self.value
-    
+    def returnCover(self):
+        return self.uncovered
+    def setCover(self,i):
+        self.uncovered=i
+    def returnPos(self):
+        return (self.x,self.y)
     def drawSquare(self):
-        
+        self.uncovered=0
         pg.draw.rect(self.Surf,(255,255,255),self.container)
+        pg.display.update(self.container)
     
     def flipSquare(self):
-        font=pg.font.Font(None,36)
+        self.uncovered=1
+        font=pg.font.SysFont("Arial",36)
         text=font.render(str(self.value),1,(255,255,255))
-        textpos = self.container
-        background = pg.Surface(self.container.size)
-        background = background.convert()
-        background.blit(text, textpos)
-        self.Surf.blit(background, (0, 0))
-        pg.display.flip()
+     
+        
+        self.Surf.blit(text, (self.x, self.y))
+        pg.display.update(self.container)
+        
         
       
 class Control:
@@ -44,14 +55,36 @@ class Control:
         self.fps = FPS
         self.done = False
     
-    def event_loop(self,keys):
+    def event_loop(self,keys,quit):
+        global status,value
         if pg.event.get(pg.QUIT):
             pg.quit();sys.exit()
         elif keys[0]:
             mpos = pg.mouse.get_pos()
-            self.mySquare[0].flipSquare()
-        elif keys[0]:
-            self.myPad.moveDOWN()
+            
+            for i in range(len(self.mySquare)):
+                if (self.mySquare[i].container.collidepoint(mpos[0],mpos[1]) and status<3):
+                    self.mySquare[i].flipSquare()
+                    print status
+                    if(value[0]==self.mySquare[i].returnValue()):
+                        print"hit"
+                        self.mySquare[i].setCover(3)
+                        self.mySquare[value[1]].setCover(3)
+                        continue
+                        
+                    else:
+                        value=[self.mySquare[i].returnValue(),i]
+                    
+                    status+=1
+                    pg.event.clear
+                    pg.time.wait(500)
+                if (status==2):
+                    for i in range(len(self.mySquare)):
+                        if (self.mySquare[i].returnCover()==1):
+                            status=0
+                            print "cover"
+                            pg.event.clear
+                            self.mySquare[i].drawSquare()
         
                 
     def main(self):
@@ -61,7 +94,9 @@ class Control:
                 
         while (True):
             keys = pg.mouse.get_pressed()
-            self.event_loop(keys)
+            quit = pg.key.get_pressed()
+         
+            self.event_loop(keys,quit)
             self.screen.fill(0)
             self.Clock.tick(self.fps)
 
