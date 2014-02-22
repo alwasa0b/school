@@ -55,6 +55,7 @@ class Control:
     def __init__(self):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
+        
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
         self.mySquare = [Square(self.screen,0,0),Square(self.screen,0,100),Square(self.screen,0,200),Square(self.screen,0,300),
                          Square(self.screen,100,0),Square(self.screen,100,100),Square(self.screen,100,200),Square(self.screen,100,300),
@@ -67,53 +68,56 @@ class Control:
         self.fps = FPS
         self.done = False
     
-    def event_loop(self,keys,quit):
+    def event_loop(self):
         global status,value
-        if pg.event.get(pg.QUIT):
-            pg.quit();sys.exit()
-        elif keys[0]:
-            mpos = pg.mouse.get_pos()
+        for event in pg.event.get():
+          
             
-            for i in range(len(self.mySquare)):
-                if (self.mySquare[i].container.collidepoint(mpos[0],mpos[1]) and status<=2 and pg.mouse.get_pressed()[0]):
-                    if(self.mySquare[i].returnCover()==1 and pg.mouse.get_pressed()[0]):
-                        return
-                    self.mySquare[i].flipSquare()
-                    print status
-                    if(value[0]==self.mySquare[i].returnValue()):
-                        print"hit"
-                        self.mySquare[i].setCover(3)
-                        self.mySquare[value[1]].setCover(3)
-                        continue
+            if event.type==pg.QUIT:
+                pg.quit()
+                sys.exit()
+            
+            elif event.type==pg.MOUSEBUTTONDOWN:
+                mpos = pg.mouse.get_pos()
+                
+                for i in range(len(self.mySquare)):                 
+                    if (self.mySquare[i].container.collidepoint(mpos[0],mpos[1]) and status<=2 and pg.mouse.get_pressed()[0]):
                         
-                    else:
-                        value=[self.mySquare[i].returnValue(),i]
-                    
-                    status+=1
-                    
-                    pg.time.wait(250)
-                if (status==2):
-                    for i in range(len(self.mySquare)):
-                        if (self.mySquare[i].returnCover()==1):
-                            value=[0]
+                        if(self.mySquare[i].returnCover()==1 and pg.mouse.get_pressed()[0]):
+                            return
+                        self.mySquare[i].flipSquare()
+                        
+                        
+                        if(value[0]==self.mySquare[i].returnValue()):
+                            print"hit"
+                            self.mySquare[i].setCover(3)
+                            self.mySquare[value[1]].setCover(3)
                             status=0
-                            print "cover"
+                            pg.time.wait(1000)
+                            continue
                             
-                            self.mySquare[i].drawSquare()
-        
+                        else:
+                            value=[self.mySquare[i].returnValue(),i]
+                            
+                        
+                        status+=1  
+                        
+                    if (status==2):
+                        pg.time.wait(1000)
+                        for i in range(len(self.mySquare)):
+                            if (self.mySquare[i].returnCover()==1):
+                                value=[0]
+                                status=0
+                                self.mySquare[i].drawSquare()
                 
     def main(self):
         for i in self.mySquare[:]:
                 i.drawSquare()
                 pg.display.update()
-                
+       
         while (True):
-            keys = pg.mouse.get_pressed()
-            quit = pg.key.get_pressed()
-         
-            self.event_loop(keys,quit)
+            self.event_loop()
             self.screen.fill(0)
-            self.Clock.tick(self.fps)
 
 if __name__ == "__main__":
     RunIt = Control()
