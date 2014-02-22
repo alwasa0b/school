@@ -1,3 +1,11 @@
+# 
+#===============================================================================
+# Author: Saeed Alalwan
+# Version: Beta 1
+# implementation of card game - Memory
+#===============================================================================
+
+
 import pygame as pg
 import random as rnd
 import sys,os,math
@@ -17,12 +25,16 @@ class Square():
         
     def returnValue(self):
         return self.value
+    
     def returnCover(self):
         return self.uncovered
+    
     def setCover(self,i):
         self.uncovered=i
+        
     def returnPos(self):
         return (self.x,self.y)
+    
     def drawSquare(self):
         self.uncovered=0
         pg.draw.rect(self.Surf,(255,255,255),self.container)
@@ -63,7 +75,9 @@ class Control:
             mpos = pg.mouse.get_pos()
             
             for i in range(len(self.mySquare)):
-                if (self.mySquare[i].container.collidepoint(mpos[0],mpos[1]) and status<3):
+                if (self.mySquare[i].container.collidepoint(mpos[0],mpos[1]) and status<=2 and pg.mouse.get_pressed()[0]):
+                    if(self.mySquare[i].returnCover()==1 and pg.mouse.get_pressed()[0]):
+                        return
                     self.mySquare[i].flipSquare()
                     print status
                     if(value[0]==self.mySquare[i].returnValue()):
@@ -76,14 +90,15 @@ class Control:
                         value=[self.mySquare[i].returnValue(),i]
                     
                     status+=1
-                    pg.event.clear
-                    pg.time.wait(500)
+                    
+                    pg.time.wait(250)
                 if (status==2):
                     for i in range(len(self.mySquare)):
                         if (self.mySquare[i].returnCover()==1):
+                            value=[0]
                             status=0
                             print "cover"
-                            pg.event.clear
+                            
                             self.mySquare[i].drawSquare()
         
                 
