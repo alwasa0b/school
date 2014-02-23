@@ -8,15 +8,17 @@
 
 import pygame as pg
 import random as rnd
-import sys,os,math
+import sys,os
 FPS = 20
 WIDTH = 600
 HEIGHT = 400   
 status=0
 value=[0]
+NUMBER_OF_SQUARES=24
+
 class Square():
     def __init__(self, surf, x, y):
-        self.value=rnd.randrange(1,10)
+        self.value=rnd.randrange(1,5)
         self.Surf=surf
         self.container = pg.Rect(x, y, 80, 80)
         self.x=x
@@ -26,6 +28,8 @@ class Square():
     def returnValue(self):
         return self.value
     
+    def setValue(self,i):
+        self.value=i
     def returnCover(self):
         return self.uncovered
     
@@ -44,7 +48,7 @@ class Square():
         self.uncovered=1
         font=pg.font.SysFont("Arial",36)
         text=font.render(str(self.value),1,(255,255,255))
-     
+        
         
         self.Surf.blit(text, (self.x, self.y))
         pg.display.update(self.container)
@@ -55,19 +59,39 @@ class Control:
     def __init__(self):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
-        
+        self.mySquare=[]
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
-        self.mySquare = [Square(self.screen,0,0),Square(self.screen,0,100),Square(self.screen,0,200),Square(self.screen,0,300),
-                         Square(self.screen,100,0),Square(self.screen,100,100),Square(self.screen,100,200),Square(self.screen,100,300),
-                         Square(self.screen,200,0),Square(self.screen,200,100),Square(self.screen,200,200),Square(self.screen,200,300),
-                         Square(self.screen,300,0),Square(self.screen,300,100),Square(self.screen,300,200),Square(self.screen,300,300),
-                         Square(self.screen,400,0),Square(self.screen,400,100),Square(self.screen,400,200),Square(self.screen,400,300),
-                         Square(self.screen,500,0),Square(self.screen,500,100),Square(self.screen,500,200),Square(self.screen,500,300)]
-        
+        self.newGame()
+        self.newNum()
         self.Clock = pg.time.Clock()
         self.fps = FPS
         self.done = False
     
+    def newGame(self):
+        x=0
+        y=0
+        for i in range(NUMBER_OF_SQUARES/6):
+            x=0
+            for n in range(NUMBER_OF_SQUARES/4):
+                self.mySquare.append(Square(self.screen,x,y))
+                x+=100
+            y+=100
+            
+    def newNum(self):
+        temp=self.mySquare
+        indcies=[n for n in range(NUMBER_OF_SQUARES)]
+        x=0
+        for i in indcies[:]:
+           
+            if (len(indcies)==2):
+                t1=indcies.pop(0)
+                t2=indcies.pop(0)
+                self.mySquare[t2].setValue(self.mySquare[t1].returnValue())
+                return
+            t1=indcies.pop(rnd.randrange(len(indcies)))
+            t2=indcies.pop(rnd.randrange(len(indcies)))
+            self.mySquare[t2].setValue(self.mySquare[t1].returnValue())
+            
     def event_loop(self):
         global status,value
         for event in pg.event.get():
@@ -93,6 +117,7 @@ class Control:
                             self.mySquare[i].setCover(3)
                             self.mySquare[value[1]].setCover(3)
                             status=0
+                            value=[0]
                             pg.time.wait(1000)
                             continue
                             
