@@ -1,8 +1,7 @@
-# 
+# implementation of card game - Memory
 #===============================================================================
 # Author: Saeed Alalwan
 # Version: Beta 1
-# implementation of card game - Memory
 #===============================================================================
 
 
@@ -95,8 +94,6 @@ class Control:
     def event_loop(self):
         global status,value
         for event in pg.event.get():
-          
-            
             if event.type==pg.QUIT:
                 pg.quit()
                 sys.exit()
