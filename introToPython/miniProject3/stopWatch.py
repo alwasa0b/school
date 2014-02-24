@@ -7,12 +7,14 @@ import pygame as pg
 import random as rnd
 import sys,os
 from time import gmtime, strftime
+import time
+import timeit
 FPS = 20
 WIDTH = 600
 HEIGHT = 400  
 
 class Watch(object):
-        def __init__(self, surf, caption ,x, y):
+        def __init__(self, surf ,x, y, *caption ):
             self.value=rnd.randrange(1,5)
             self.Surf=surf
             self.container = pg.Rect(x, y, 80, 20)
@@ -25,7 +27,7 @@ class Watch(object):
         def drawTime(self):
             self.uncovered=0
             font=pg.font.SysFont("Arial",20)
-            text=font.render(self.caption,1,(0,0,0))
+            text=font.render(self.caption[0],1,(0,0,0))
             pg.draw.rect(self.Surf,(255,255,255),self.container)
             self.Surf.blit(text, (self.x, self.y))
             pg.display.update(self.container)
@@ -59,7 +61,7 @@ class Frame(object):
     
     def drawSquare(self):       
         pg.draw.rect(self.Surf,(255,255,255),self.container)
-        Watch(self.Surf,strftime("%H:%M:%S", gmtime()), self.container.centerx-50,self.container.centery)
+        
         pg.display.update(self.container)
         
 class Control(object):
@@ -67,11 +69,15 @@ class Control(object):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
         self.mySquare=[]
+        self.time_start = time.time()
+        self.seconds = 0
+        self.minutes = 0
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
         self.start=Button(self.screen,"start",10,50)
         self.stop=Button(self.screen,"stop",10,100)
         self.reset=Button(self.screen,"rest",10,150)
-        Frame(self.screen)
+        self.frame=Frame(self.screen )
+       
         self.Clock = pg.time.Clock()
         self.fps = FPS
         self.done = False
@@ -79,6 +85,14 @@ class Control(object):
 
     def event_loop(self):
         global status,value
+        
+        
+        Watch(self.screen, self.frame.container.centerx-50,self.frame.container.centery,(str(self.minutes)+":"+str(self.seconds)))
+        self.seconds = int(time.time() - self.time_start) - self.minutes * 60
+        if self.seconds >= 60:
+            self.minutes += 1
+            self.seconds = 0
+            
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 pg.quit()
@@ -87,16 +101,18 @@ class Control(object):
                 mpos = pg.mouse.get_pos()
                 if (self.start.container.collidepoint(mpos[0],mpos[1])):
                     print "start"
-                elif (self.stop.container.collidepoint(mpos[0],mpos[1])):
+                elif (self.stop.container.collidepoint(mpos[0],mpos[1])):                        
                     print "stop"
                 elif (self.reset.container.collidepoint(mpos[0],mpos[1])):
                     print "reset"
+                    self.time_start = time.time()
             
 
     def main(self):
        
         while (True):
             self.event_loop()
+            
             self.screen.fill(0)
 
 if __name__ == "__main__":
