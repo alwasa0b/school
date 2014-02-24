@@ -6,10 +6,30 @@
 import pygame as pg
 import random as rnd
 import sys,os
+from time import gmtime, strftime
 FPS = 20
 WIDTH = 600
 HEIGHT = 400  
- 
+
+class Watch(object):
+        def __init__(self, surf, caption ,x, y):
+            self.value=rnd.randrange(1,5)
+            self.Surf=surf
+            self.container = pg.Rect(x, y, 80, 20)
+            self.x=x
+            self.y=y
+            self.caption=caption
+            self.uncovered=0
+            self.drawTime()
+            
+        def drawTime(self):
+            self.uncovered=0
+            font=pg.font.SysFont("Arial",20)
+            text=font.render(self.caption,1,(0,0,0))
+            pg.draw.rect(self.Surf,(255,255,255),self.container)
+            self.Surf.blit(text, (self.x, self.y))
+            pg.display.update(self.container)
+
 class Button(object):
     def __init__(self, surf, caption ,x, y):
         self.value=rnd.randrange(1,5)
@@ -19,9 +39,9 @@ class Button(object):
         self.y=y
         self.caption=caption
         self.uncovered=0
-        self.drawSquare()
+        self.drawButton()
     
-    def drawSquare(self):
+    def drawButton(self):
         self.uncovered=0
         font=pg.font.SysFont("Arial",20)
         text=font.render(self.caption,1,(0,0,0))
@@ -39,6 +59,7 @@ class Frame(object):
     
     def drawSquare(self):       
         pg.draw.rect(self.Surf,(255,255,255),self.container)
+        Watch(self.Surf,strftime("%H:%M:%S", gmtime()), self.container.centerx-50,self.container.centery)
         pg.display.update(self.container)
         
 class Control(object):
@@ -47,8 +68,9 @@ class Control(object):
         pg.init()
         self.mySquare=[]
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
-        Button(self.screen,"stop",10,50)
-        Button(self.screen,"rest",10,100)
+        self.start=Button(self.screen,"start",10,50)
+        self.stop=Button(self.screen,"stop",10,100)
+        self.reset=Button(self.screen,"rest",10,150)
         Frame(self.screen)
         self.Clock = pg.time.Clock()
         self.fps = FPS
@@ -61,11 +83,17 @@ class Control(object):
             if event.type==pg.QUIT:
                 pg.quit()
                 sys.exit()
+            elif event.type==pg.MOUSEBUTTONDOWN:
+                mpos = pg.mouse.get_pos()
+                if (self.start.container.collidepoint(mpos[0],mpos[1])):
+                    print "start"
+                elif (self.stop.container.collidepoint(mpos[0],mpos[1])):
+                    print "stop"
+                elif (self.reset.container.collidepoint(mpos[0],mpos[1])):
+                    print "reset"
+            
 
     def main(self):
-        for i in self.mySquare[:]:
-                i.drawSquare()
-                pg.display.update()
        
         while (True):
             self.event_loop()
