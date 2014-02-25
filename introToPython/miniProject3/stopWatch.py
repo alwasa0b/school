@@ -89,16 +89,8 @@ class Control(object):
 
     def event_loop(self):
         global status,value,tmimer2,tmimer,stopTime
-        
-        
         Watch(self.screen, self.frame.container.centerx-50,self.frame.container.centery,(str(self.minutes)+":"+str(self.seconds)))
-        
-        
-        
-        
-        
-        if self.startTimer:
-                       
+        if self.startTimer:    
             tmimer=int((time.time())-(self.startTime))
             self.seconds = tmimer - tmimer2 - self.minutes * 60
             self.past=tmimer2
@@ -106,50 +98,53 @@ class Control(object):
                 self.minutes += 1
                 self.seconds = 0
             self.stopTimer=False
-        elif self.stopTimer: 
-            
-                
+        elif self.stopTimer:           
             tmimer2=int((time.time()-stopTime+ self.past))
-            print tmimer2
-            
+            #print tmimer2
+        else:
+            pass
             
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 pg.quit()
                 sys.exit()
+            
             elif event.type==pg.MOUSEBUTTONDOWN:
                 mpos = pg.mouse.get_pos()
-                if (self.start.container.collidepoint(mpos[0],mpos[1])):
+                if (self.stop.container.collidepoint(mpos[0],mpos[1])) and self.stopTimer:
+                    continue
+                if (self.start.container.collidepoint(mpos[0],mpos[1])) and self.startTimer:
+                    continue
+                
+                elif (self.start.container.collidepoint(mpos[0],mpos[1])):
                     print "start"
-                    
                     if not self.stopTimer:
                         self.startTime = time.time()
                         self.startTimer = True
                     elif self.stopTimer:
                         self.startTimer = True
-                    elif self.startTimer:
-                        self.startTime = time.time()
-                        tmimer2=0
-                        self.startTimer=True
-                        self.stopTimer = False
+                        
                     else:
-                        pass
+                        
+                        continue
                     
                     #print self.startTime  
                     
                 elif (self.stop.container.collidepoint(mpos[0],mpos[1])):
                     stopTime = time.time()
-                    self.startTimer = not self.startTimer
-                    self.stopTimer = not self.stopTimer    
-                    #print "stop"
+                    self.startTimer = False
+                    self.stopTimer = True    
+                    print "stop"
                     
                     
                 elif (self.reset.container.collidepoint(mpos[0],mpos[1])):
-                    #print "reset"
+                    print "reset"
                     self.startTime = time.time()
                     tmimer2=0
                     self.startTimer=True
                     self.stopTimer = False
+                else:
+                        continue
 
     def main(self):
        
@@ -160,36 +155,5 @@ class Control(object):
 if __name__ == "__main__":
     RunIt = Control()
     RunIt.main()
-    pg.quit();sys.exit()
-
-
-# # template for "Stopwatch: The Game"
-# 
-# # define global variables
-# 
-# 
-# # define helper function format that converts time
-# # in tenths of seconds into formatted string A:BC.D
-# def format(t):
-#     pass
-#     
-# # define event handlers for buttons; "Start", "Stop", "Reset"
-# 
-# 
-# 
-# # define event handler for timer with 0.1 sec interval
-# 
-# 
-# # define draw handler
-# 
-#     
-# # create frame
-# 
-# 
-# # register event handlers
-# 
-# 
-# # start frame
-# 
-# 
-# # Please remember to review the grading rubric
+    pg.quit()
+    sys.exit()
