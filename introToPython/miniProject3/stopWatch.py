@@ -11,8 +11,10 @@ import time
 import timeit
 FPS = 20
 WIDTH = 600
-HEIGHT = 400  
-
+HEIGHT = 400 
+tmimer=None 
+tmimer2=0
+stopTime=0
 class Watch(object):
         def __init__(self, surf ,x, y, *caption ):
             self.value=rnd.randrange(1,5)
@@ -69,7 +71,9 @@ class Control(object):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
         self.mySquare=[]
-        self.time_start = time.time()
+        self.startTime =0
+        self.startTimer=False
+        self.stopTimer=False
         self.seconds = 0
         self.minutes = 0
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
@@ -84,14 +88,30 @@ class Control(object):
     
 
     def event_loop(self):
-        global status,value
+        global status,value,tmimer2,tmimer,stopTime
         
         
         Watch(self.screen, self.frame.container.centerx-50,self.frame.container.centery,(str(self.minutes)+":"+str(self.seconds)))
-        self.seconds = int(time.time() - self.time_start) - self.minutes * 60
-        if self.seconds >= 60:
-            self.minutes += 1
-            self.seconds = 0
+        
+        
+        
+        
+        
+        if self.startTimer:
+                       
+            tmimer=int((time.time())-(self.startTime))
+            self.seconds = tmimer - tmimer2 - self.minutes * 60
+            self.past=tmimer2
+            if self.seconds >= 60:
+                self.minutes += 1
+                self.seconds = 0
+            self.stopTimer=False
+        elif self.stopTimer: 
+            
+                
+            tmimer2=int((time.time()-stopTime+ self.past))
+            print tmimer2
+            
             
         for event in pg.event.get():
             if event.type==pg.QUIT:
@@ -101,18 +121,40 @@ class Control(object):
                 mpos = pg.mouse.get_pos()
                 if (self.start.container.collidepoint(mpos[0],mpos[1])):
                     print "start"
-                elif (self.stop.container.collidepoint(mpos[0],mpos[1])):                        
-                    print "stop"
+                    
+                    if not self.stopTimer:
+                        self.startTime = time.time()
+                        self.startTimer = True
+                    elif self.stopTimer:
+                        self.startTimer = True
+                    elif self.startTimer:
+                        self.startTime = time.time()
+                        tmimer2=0
+                        self.startTimer=True
+                        self.stopTimer = False
+                    else:
+                        pass
+                    
+                    #print self.startTime  
+                    
+                elif (self.stop.container.collidepoint(mpos[0],mpos[1])):
+                    stopTime = time.time()
+                    self.startTimer = not self.startTimer
+                    self.stopTimer = not self.stopTimer    
+                    #print "stop"
+                    
+                    
                 elif (self.reset.container.collidepoint(mpos[0],mpos[1])):
-                    print "reset"
-                    self.time_start = time.time()
-            
+                    #print "reset"
+                    self.startTime = time.time()
+                    tmimer2=0
+                    self.startTimer=True
+                    self.stopTimer = False
 
     def main(self):
        
         while (True):
             self.event_loop()
-            
             self.screen.fill(0)
 
 if __name__ == "__main__":
