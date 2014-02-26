@@ -13,27 +13,15 @@ WIDTH = 949
 HEIGHT = 392   
 status=0
 value=[0]
-NUMBER_OF_SQUARES=24
-
-
 # load card sprite - 949x392 - source: jfitz.com
 CARD_SIZE = (73, 98)
 CARD_CENTER = (36.5, 49)
-
-# card_images = cStringIO.StringIO(urllib2.urlopen(URL1).read())
-# 
-# 
-# CARD_BACK_SIZE = (71, 96)
-# CARD_BACK_CENTER = (35.5, 48)
-# URL2 = "http://commondatastorage.googleapis.com/codeskulptor-assets/card_back.png"   
-# card_back  = cStringIO.StringIO(urllib2.urlopen(URL1).read())
-
 
 # initialize some useful global variables
 in_play = False
 outcome = ""
 score = 0
-
+i=0
 
 # define globals for cards
 SUITS = ('C', 'S', 'H', 'D')
@@ -48,35 +36,52 @@ for y in ypos:
     for x in xpos:
         listPos.append((x,y)) 
         
-
+class Button(object):
+    def __init__(self, surf, caption ,x, y):
+        self.value=rnd.randrange(1,5)
+        self.Surf=surf
+        self.container = pg.Rect(x, y, 80, 20)
+        self.x=x
+        self.y=y
+        self.caption=caption
+        self.uncovered=0
+        self.drawButton()
+    
+    def drawButton(self):
+        self.uncovered=0
+        font=pg.font.SysFont("Arial",20)
+        text=font.render(self.caption,1,(0,0,0))
+        pg.draw.rect(self.Surf,(255,255,255),self.container)
+        self.Surf.blit(text, (self.x, self.y))
+        pg.display.update(self.container)
 
 
 class Card():
     def __init__(self,surf, cardx, cardy, pos):
         self.Surf=surf
-        self.rectContainer = pg.Rect(pos[0], pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        self.imageContainer = pg.Rect(pos[0], pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        self.container = pg.Rect(cardx, cardy, CARD_SIZE[0], CARD_SIZE[1])
         self.imageSurface = pg.image.load(os.path.join('/home/missoula/cards.jfitz.png'))
+        self.coverSurface = pg.image.load(os.path.join('/home/missoula/card_back.png'))
         self.cardx=cardx
         self.cardy=cardy
+        self.cover()
+        pg.display.update()
         
     def drawSquare(self):
         card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
-        card.blit(self.imageSurface,(0,0),self.rectContainer)
-        self.Surf.blit(card, (self.cardx,self.cardy,80,80))
-     
         
-#         self.uncovered=0
-#         #self.asurf
-#         #pg.draw.rect(self.imageSurface,(255,255,255),self.rectContainer)
-#         
-#         print card.blit(self.imageSurface,(255,255),self.rectContainer)
-#         
-#         #pg.draw.rect(self.Surf,(255,255,255),self.rectContainer)
-#         
-#         #print pg.transform.chop(self.imageSurface,self.rectContainer)
-#         ##pg.draw.rect(self.Surf,(255,255,255),self.container)
-
-#         #pg.display.update(self.rectContainer)
+        card.blit(self.imageSurface,(0,0),self.imageContainer)
+      
+        self.Surf.blit(card, self.container)
+        pg.display.update(self.container)
+        
+     
+    def cover(self): 
+        card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
+        card.blit(self.coverSurface,(0,0))
+        self.Surf.blit(card, (self.cardx,self.cardy))
+        pg.display.update()
         
         
       
@@ -86,9 +91,17 @@ class Control:
         pg.init()
         self.myCards=[]
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
-        Card(self.screen,250,250,listPos[51]).drawSquare()
-        Card(self.screen,350,250,listPos[50]).drawSquare()
-        pg.display.update()
+        
+        self.hit=Button(self.screen,"hit",10,50)
+        self.hit.drawButton()
+        self.stand=Button(self.screen,"stand",10,100)
+        self.stand.drawButton()
+        
+        self.myCards.append(Card(self.screen,250,250,listPos[rnd.randrange(len(listPos))]))
+        self.myCards.append(Card(self.screen,350,250,listPos[rnd.randrange(len(listPos))]))
+        self.myCards.append(Card(self.screen,450,250,listPos[rnd.randrange(len(listPos))]))
+        
+       
         self.Clock = pg.time.Clock()
         self.fps = FPS
         self.done = False
@@ -96,7 +109,8 @@ class Control:
 
             
     def event_loop(self):
-        global status,value
+        global status,value,i
+        
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 pg.quit()
@@ -104,7 +118,16 @@ class Control:
             
             elif event.type==pg.MOUSEBUTTONDOWN:
                 mpos = pg.mouse.get_pos()
-                
+                if (self.hit.container.collidepoint(mpos[0],mpos[1])):
+                    print"hit"
+                    self.myCards[i].drawSquare()
+                 
+                    
+                    i+=1
+                elif (self.stand.container.collidepoint(mpos[0],mpos[1])):
+                    print "stand"
+            
+            
     def main(self):
 #         for i in self.mySquare[:]:
 #                 i.drawSquare()
