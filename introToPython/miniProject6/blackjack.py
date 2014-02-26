@@ -1,7 +1,157 @@
-# # Mini-project #6 - Blackjack
+# implementation of card game - Blackjack
+#===============================================================================
+# Author: Saeed Alalwan
+# Version: Beta 1
+#===============================================================================
+import urllib2, cStringIO
+from PIL import Image
+import pygame as pg
+import random as rnd
+import sys,os
+FPS = 20
+WIDTH = 949
+HEIGHT = 392   
+status=0
+value=[0]
+NUMBER_OF_SQUARES=24
+
+
+# load card sprite - 949x392 - source: jfitz.com
+CARD_SIZE = (73, 98)
+CARD_CENTER = (36.5, 49)
+
+# card_images = cStringIO.StringIO(urllib2.urlopen(URL1).read())
 # 
-# import pygame as simplegui
-# import random
+# 
+# CARD_BACK_SIZE = (71, 96)
+# CARD_BACK_CENTER = (35.5, 48)
+# URL2 = "http://commondatastorage.googleapis.com/codeskulptor-assets/card_back.png"   
+# card_back  = cStringIO.StringIO(urllib2.urlopen(URL1).read())
+
+
+# initialize some useful global variables
+in_play = False
+outcome = ""
+score = 0
+
+
+# define globals for cards
+SUITS = ('C', 'S', 'H', 'D')
+RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
+VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 'T':10, 'J':10, 'Q':10, 'K':10}
+
+xpos=[x for x in range(0,WIDTH,CARD_SIZE[0])]
+ypos=[x for x in range(0,HEIGHT,CARD_SIZE[1])]
+listPos=list()
+
+for y in ypos:
+    for x in xpos:
+        listPos.append((x,y)) 
+        
+
+
+
+class Card():
+    def __init__(self,surf, cardx, cardy, pos):
+        self.Surf=surf
+        self.rectContainer = pg.Rect(pos[0], pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        self.imageSurface = pg.image.load(os.path.join('/home/missoula/cards.jfitz.png'))
+        self.cardx=cardx
+        self.cardy=cardy
+        
+    def drawSquare(self):
+        card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
+        card.blit(self.imageSurface,(0,0),self.rectContainer)
+        self.Surf.blit(card, (self.cardx,self.cardy,80,80))
+     
+        
+#         self.uncovered=0
+#         #self.asurf
+#         #pg.draw.rect(self.imageSurface,(255,255,255),self.rectContainer)
+#         
+#         print card.blit(self.imageSurface,(255,255),self.rectContainer)
+#         
+#         #pg.draw.rect(self.Surf,(255,255,255),self.rectContainer)
+#         
+#         #print pg.transform.chop(self.imageSurface,self.rectContainer)
+#         ##pg.draw.rect(self.Surf,(255,255,255),self.container)
+
+#         #pg.display.update(self.rectContainer)
+        
+        
+      
+class Control:
+    def __init__(self):
+        os.environ["SDL_VIDEO_CENTERED"] = '1'
+        pg.init()
+        self.myCards=[]
+        self.screen = pg.display.set_mode((WIDTH,HEIGHT))
+        Card(self.screen,250,250,listPos[51]).drawSquare()
+        Card(self.screen,350,250,listPos[50]).drawSquare()
+        pg.display.update()
+        self.Clock = pg.time.Clock()
+        self.fps = FPS
+        self.done = False
+            
+
+            
+    def event_loop(self):
+        global status,value
+        for event in pg.event.get():
+            if event.type==pg.QUIT:
+                pg.quit()
+                sys.exit()
+            
+            elif event.type==pg.MOUSEBUTTONDOWN:
+                mpos = pg.mouse.get_pos()
+                
+    def main(self):
+#         for i in self.mySquare[:]:
+#                 i.drawSquare()
+#                 pg.display.update()
+       
+        while (True):
+            self.event_loop()
+            self.screen.fill(0)
+
+if __name__ == "__main__":
+    RunIt = Control()
+    RunIt.main()
+    pg.quit();sys.exit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 
 # # load card sprite - 949x392 - source: jfitz.com
 # CARD_SIZE = (73, 98)
