@@ -1,5 +1,5 @@
 miniProject1:
-Rock-paper-scissors-lizard-Spock
+  Rock-paper-scissors-lizard-Spock
 output:
 ```
 Player chooses rock
