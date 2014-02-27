@@ -1,3 +1,5 @@
+package lab02;
+
 /**
  * @class CS257 Lab 2
  * @author Saeed Alalwan

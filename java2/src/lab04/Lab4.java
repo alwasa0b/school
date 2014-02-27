@@ -1,3 +1,4 @@
+package lab04;
 /**
  * @class CS257 Lab 4
  * @author Saeed Alalwan

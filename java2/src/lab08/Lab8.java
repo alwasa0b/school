@@ -1,6 +1,10 @@
+package lab08;
+
 
 
 import java.util.Random;
+
+import lab04.Lab4;
 /**
  * @class CS257 Lab 5
  * @author Saeed Alalwan
