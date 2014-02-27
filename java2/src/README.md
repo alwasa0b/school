@@ -3,7 +3,7 @@ lab01:
   2. Gain a clear understanding of how to use keyword new to create objects.
 
 lab02:
-  1.Gain a clear understanding of: writing a class that contains data and methods, if statements, and scope. 
+  1. Gain a clear understanding of: writing a class that contains data and methods, if statements, and scope. 
 
 lab03:
   1. Practice using nested if’s, switches, and while loops.
