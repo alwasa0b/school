@@ -7,7 +7,7 @@ import urllib2, cStringIO
 from PIL import Image
 import pygame as pg
 import random as rnd
-import sys,os
+import sys,os,time
 FPS = 20
 WIDTH = 949
 HEIGHT = 392   
@@ -66,13 +66,24 @@ class Button(object):
         self.Surf.blit(text, (self.x, self.y))
         pg.display.update(self.container)
 
-class Dealer(object):
-    def __init__(self,surf):
+      
+class Player(object):
+    def __init__(self,surf,x,y):
         self.Surf=surf
-        self.dealCards=[]
-        self.dealCards.append(Card(self.Surf,250,50,rnd.randrange(len(listPos))))
-        self.dealCards.append(Card(self.Surf,350,50,rnd.randrange(len(listPos))))
-        self.dealCards.append(Card(self.Surf,450,50,rnd.randrange(len(listPos))))
+        self.x=x
+        self.y=y
+        self.myCards=[]
+        self.myCards.append(Card(self.Surf,self.x,self.y,rnd.randrange(len(listPos))))
+        self.myCards.append(Card(self.Surf,self.x+100,self.y,rnd.randrange(len(listPos))))
+    
+    def addCard(self):
+        self.myCards.append(Card(self.Surf,self.x+200,self.y,rnd.randrange(len(listPos))))
+    
+    def HandValue(self):
+        value=0
+        for i in self.myCards:
+            value+=i[3]
+        return value
 
 class Card():
     def __init__(self,surf, cardx, cardy, p):
@@ -85,10 +96,13 @@ class Card():
         self.cardx=cardx
         self.cardy=cardy
         self.cover()
-        pg.display.update()
+        pg.display.update(self.container)
         
     def __str__(self):
-        return self.pos[2]+" "+self.pos[3] +" "+ str(VALUES[self.pos[3]])
+        return self.pos[2]+" "+self.pos[3]
+   
+    def __getitem__(self,key):
+        return VALUES[self.pos[key]]
     
     def getValue(self):
         return VALUES[self.pos[3]] 
@@ -106,7 +120,7 @@ class Card():
         card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
         card.blit(self.coverSurface,(0,0))
         self.Surf.blit(card, (self.cardx,self.cardy))
-        pg.display.update()
+        pg.display.update(self.container)
         
         
       
@@ -114,28 +128,35 @@ class Control:
     def __init__(self):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
-        self.myCards=[]
+      
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
-        Dealer(self.screen)
-        self.hit=Button(self.screen,"hit",10,50)
+        
+        self.dealer = Player(self.screen,150,50)
+        self.player = Player(self.screen,150,250)
+        self.hit=Button(self.screen,"hit",10,150)
         self.hit.drawButton()
-        self.stand=Button(self.screen,"stand",10,100)
+        
+        self.stand=Button(self.screen,"stand",10,200)
         self.stand.drawButton()
         
-        self.myCards.append(Card(self.screen,250,250,rnd.randrange(len(listPos))))
-        self.myCards.append(Card(self.screen,350,250,rnd.randrange(len(listPos))))
-        self.myCards.append(Card(self.screen,450,250,rnd.randrange(len(listPos))))
+        self.deal=Button(self.screen,"deal",10,50)
+        self.deal.drawButton()
+        
+        self.uncover=Button(self.screen,"uncover",10,100)
+        self.uncover.drawButton()
+        
+    
         
        
         self.Clock = pg.time.Clock()
         self.fps = FPS
-        self.done = False
+        pg.display.update()
             
 
             
     def event_loop(self):
         global status,value,i
-        
+ 
         for event in pg.event.get():
             if event.type==pg.QUIT:
                 pg.quit()
@@ -143,21 +164,38 @@ class Control:
             
             elif event.type==pg.MOUSEBUTTONDOWN:
                 mpos = pg.mouse.get_pos()
-                if (self.hit.container.collidepoint(mpos[0],mpos[1])):
-                    print self.myCards[i]
-                    self.myCards[i].drawSquare()
-                 
+                if (self.deal.container.collidepoint(mpos[0],mpos[1])):
+                    i=0
+                    self.__init__()
                     
+                elif (self.uncover.container.collidepoint(mpos[0],mpos[1])):
+                   
+                    self.player.myCards[i].drawSquare()
                     i+=1
-                elif (self.stand.container.collidepoint(mpos[0],mpos[1])):
-                    print "stand"
+                    if(i==2):
+                        print "player: "+str(self.player.HandValue())
+                        print "dealer: "+str(self.dealer.HandValue())
+                        time.sleep(1)
+                        self.dealer.myCards[0].drawSquare()
+                        self.dealer.myCards[1].drawSquare()
+                        
             
+                    
+                elif (self.hit.container.collidepoint(mpos[0],mpos[1])):
+                    self.player.addCard()
+                    if(self.player.HandValue()>21):
+                        print "busted"
+                    print "player: "+str(self.player.HandValue())
+                    print "dealer: "+str(self.dealer.HandValue())
+                    self.player.myCards[2].drawSquare()
+                elif (self.stand.container.collidepoint(mpos[0],mpos[1])):
+                    if(self.player.HandValue()<=self.dealer.HandValue()):
+                        continue
+                    elif(self.dealer.HandValue()<17):
+                        self.dealer.addCard()
+                        self.dealer.myCards[2].drawSquare()
             
     def main(self):
-#         for i in self.mySquare[:]:
-#                 i.drawSquare()
-#                 pg.display.update()
-       
         while (True):
             self.event_loop()
             self.screen.fill(0)
@@ -176,156 +214,3 @@ if __name__ == "__main__":
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 
-# # load card sprite - 949x392 - source: jfitz.com
-# CARD_SIZE = (73, 98)
-# CARD_CENTER = (36.5, 49)
-# card_images = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/cards.jfitz.png")
-# 
-# CARD_BACK_SIZE = (71, 96)
-# CARD_BACK_CENTER = (35.5, 48)
-# card_back = simplegui.load_image("http://commondatastorage.googleapis.com/codeskulptor-assets/card_back.png")    
-# 
-# # initialize some useful global variables
-# in_play = False
-# outcome = ""
-# score = 0
-# 
-# # define globals for cards
-# SUITS = ('C', 'S', 'H', 'D')
-# RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
-# VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 'T':10, 'J':10, 'Q':10, 'K':10}
-# 
-# 
-# # define card class
-# class Card:
-#     def __init__(self, suit, rank):
-#         if (suit in SUITS) and (rank in RANKS):
-#             self.suit = suit
-#             self.rank = rank
-#         else:
-#             self.suit = None
-#             self.rank = None
-#             print "Invalid card: ", suit, rank
-# 
-#     def __str__(self):
-#         return self.suit + self.rank
-# 
-#     def get_suit(self):
-#         return self.suit
-# 
-#     def get_rank(self):
-#         return self.rank
-# 
-#     def draw(self, canvas, pos):
-#         card_loc = (CARD_CENTER[0] + CARD_SIZE[0] * RANKS.index(self.rank), 
-#                     CARD_CENTER[1] + CARD_SIZE[1] * SUITS.index(self.suit))
-#         canvas.draw_image(card_images, card_loc, CARD_SIZE, [pos[0] + CARD_CENTER[0], pos[1] + CARD_CENTER[1]], CARD_SIZE)
-#         
-# # define hand class
-# class Hand:
-#     def __init__(self):
-#         pass    # create Hand object
-# 
-#     def __str__(self):
-#         pass    # return a string representation of a hand
-# 
-#     def add_card(self, card):
-#         pass    # add a card object to a hand
-# 
-#     def get_value(self):
-#         # count aces as 1, if the hand has an ace, then add 10 to hand value if it doesn't bust
-#         pass    # compute the value of the hand, see Blackjack video
-#    
-#     def draw(self, canvas, pos):
-#         pass    # draw a hand on the canvas, use the draw method for cards
-#  
-#         
-# # define deck class 
-# class Deck:
-#     def __init__(self):
-#         pass    # create a Deck object
-# 
-#     def shuffle(self):
-#         # shuffle the deck 
-#         pass    # use random.shuffle()
-# 
-#     def deal_card(self):
-#         pass    # deal a card object from the deck
-#     
-#     def __str__(self):
-#         pass    # return a string representing the deck
-# 
-# 
-# 
-# #define event handlers for buttons
-# def deal():
-#     global outcome, in_play
-# 
-#     # your code goes here
-#     
-#     in_play = True
-# 
-# def hit():
-#     pass    # replace with your code below
-#  
-#     # if the hand is in play, hit the player
-#    
-#     # if busted, assign a message to outcome, update in_play and score
-#        
-# def stand():
-#     pass    # replace with your code below
-#    
-#     # if hand is in play, repeatedly hit dealer until his hand has value 17 or more
-# 
-#     # assign a message to outcome, update in_play and score
-# 
-# # draw handler    
-# def draw(canvas):
-#     # test to make sure that card.draw works, replace with your code below
-#     
-#     card = Card("S", "A")
-#     card.draw(canvas, [300, 300])
-# 
-# 
-# # initialization frame
-# frame = simplegui.create_frame("Blackjack", 600, 600)
-# frame.set_canvas_background("Green")
-# 
-# #create buttons and canvas callback
-# frame.add_button("Deal", deal, 200)
-# frame.add_button("Hit",  hit, 200)
-# frame.add_button("Stand", stand, 200)
-# frame.set_draw_handler(draw)
-# 
-# 
-# # get things rolling
-# deal()
-# frame.start()
-# 
-# 
-# # remember to review the gradic rubric
