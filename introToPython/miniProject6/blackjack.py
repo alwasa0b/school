@@ -83,8 +83,56 @@ class Player(object):
         value=0
         for i in self.myCards:
             value+=i[3]
+            if(value+9<=21 and i.getValue()=='A'):
+                value+=9
         return value
+class scoreArea(object):
+        def __init__(self, Surf, playerScore, dealerScore):
+          
+            self.playerScoreContainer = pg.Rect(450,50, 50, 50)
+            self.dealerScoreContainer = pg.Rect(450,250, 50, 50)
+            self.Surf=Surf
+            self.uncovered=0
+            
+            self.playerScore=str(playerScore)
+            self.dealerScore=str(dealerScore)
+            self.drawSquare()
+    
+        def drawSquare(self):       
+            font=pg.font.SysFont("Arial",20)
+       
+            text2=font.render(self.dealerScore,1,(0,0,0))
+            text3=font.render(self.playerScore,1,(0,0,0))
+            pg.draw.rect(self.Surf,(255,255,25),self.playerScoreContainer)
+            pg.draw.rect(self.Surf,(25,255,255),self.dealerScoreContainer)
+            
+            self.Surf.blit(text2, (self.playerScoreContainer.centerx, self.playerScoreContainer.centery))
+            self.Surf.blit(text3, (self.dealerScoreContainer.centerx, self.dealerScoreContainer.centery))
+            pg.display.update(self.playerScoreContainer)
+            pg.display.update(self.dealerScoreContainer)
 
+class winnerMsg(object):
+    def __init__(self, Surf, score):
+        self.container = pg.Rect(550,250, 150, 50)
+       
+        self.Surf=Surf
+        self.uncovered=0
+        self.caption=score
+    
+        self.drawSquare()
+    
+    def drawSquare(self):       
+        font=pg.font.SysFont("Arial",20)
+        text1=font.render(self.caption,1,(0,0,0))
+  
+        
+        pg.draw.rect(self.Surf,(255,255,255),self.container)
+      
+        
+        self.Surf.blit(text1, (self.container.x+50, self.container.centery))
+      
+        pg.display.update(self.container)
+    
 class Card():
     def __init__(self,surf, cardx, cardy, p):
         self.pos=listPos[p][0],listPos[p][1],listPos[p][2],listPos[p][3]
@@ -105,7 +153,9 @@ class Card():
         return VALUES[self.pos[key]]
     
     def getValue(self):
-        return VALUES[self.pos[3]] 
+        return self.pos[3]
+   
+
     
     def drawSquare(self):
         card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
@@ -122,13 +172,56 @@ class Card():
         self.Surf.blit(card, (self.cardx,self.cardy))
         pg.display.update(self.container)
         
+
+class Score(object):
+    def __init__(self,surf,player,dealer):
+        
+        self.player=player
+        self.dealer=dealer
+        self.Surf=surf
+         
+        
+        if(self.player.HandValue()>21):
+            
+            winnerMsg(self.Surf,"you lose").drawSquare()
+            print "you lose"
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())
+            return
+        elif(self.dealer.HandValue()>21):    
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())
+            winnerMsg(self.Surf,"you win").drawSquare()                    
+            print"you win" 
+        elif(self.dealer.HandValue()>=self.player.HandValue()and self.dealer.HandValue()<=21):
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())
+            winnerMsg(self.Surf,"you lose").drawSquare()
+            print "you lose"
+            print "one"
+        elif(self.dealer.HandValue()==self.player.HandValue()):
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())
+            winnerMsg(self.Surf,"you lose").drawSquare()
+            print "you lose"
+            print "two"
+        elif(self.dealer.HandValue()<=self.player.HandValue() and self.player.HandValue()<=21):
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())
+            winnerMsg(self.Surf,"you win").drawSquare()  
+            print "you win"
+            print "three" 
+        else:
+            print "an else" 
+            print "player: "+str(self.player.HandValue())
+            print "dealer: "+str(self.dealer.HandValue())      
         
       
 class Control:
     def __init__(self):
         os.environ["SDL_VIDEO_CENTERED"] = '1'
         pg.init()
-      
+       
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
         
         self.dealer = Player(self.screen,150,50)
@@ -145,13 +238,14 @@ class Control:
         self.uncover=Button(self.screen,"uncover",10,100)
         self.uncover.drawButton()
         
-    
+        
         
        
         self.Clock = pg.time.Clock()
         self.fps = FPS
         pg.display.update()
-            
+        
+      
 
             
     def event_loop(self):
@@ -164,37 +258,51 @@ class Control:
             
             elif event.type==pg.MOUSEBUTTONDOWN:
                 mpos = pg.mouse.get_pos()
+                
+                    
+                
                 if (self.deal.container.collidepoint(mpos[0],mpos[1])):
                     i=0
                     self.__init__()
                     
                 elif (self.uncover.container.collidepoint(mpos[0],mpos[1])):
-                   
+                    if(i>=2):
+                        continue
                     self.player.myCards[i].drawSquare()
                     i+=1
                     if(i==2):
+                        
                         print "player: "+str(self.player.HandValue())
                         print "dealer: "+str(self.dealer.HandValue())
                         time.sleep(1)
                         self.dealer.myCards[0].drawSquare()
                         self.dealer.myCards[1].drawSquare()
-                        
-            
+                        scoreArea(self.screen, str(self.player.HandValue()),str(self.dealer.HandValue()))
+                   
+        
+                
                     
-                elif (self.hit.container.collidepoint(mpos[0],mpos[1])):
+                elif (self.hit.container.collidepoint(mpos[0],mpos[1]) and i>=2):
+                    i=0
                     self.player.addCard()
-                    if(self.player.HandValue()>21):
-                        print "busted"
-                    print "player: "+str(self.player.HandValue())
-                    print "dealer: "+str(self.dealer.HandValue())
-                    self.player.myCards[2].drawSquare()
-                elif (self.stand.container.collidepoint(mpos[0],mpos[1])):
-                    if(self.player.HandValue()<=self.dealer.HandValue()):
-                        continue
-                    elif(self.dealer.HandValue()<17):
+                    
+                    if(self.dealer.HandValue()<=17):
                         self.dealer.addCard()
                         self.dealer.myCards[2].drawSquare()
-            
+                        
+                    self.player.myCards[2].drawSquare()
+                    scoreArea(self.screen, str(self.player.HandValue()),str(self.dealer.HandValue()))
+                    Score(self.screen,self.player,self.dealer)
+                    
+                        
+                elif (self.stand.container.collidepoint(mpos[0],mpos[1]) and i>=2):
+                    i=0
+                    if(self.dealer.HandValue()<=17):
+                        self.dealer.addCard()
+                        self.dealer.myCards[2].drawSquare()
+                    scoreArea(self.screen, str(self.player.HandValue()),str(self.dealer.HandValue()))
+                    Score(self.screen,self.player,self.dealer)
+
     def main(self):
         while (True):
             self.event_loop()
