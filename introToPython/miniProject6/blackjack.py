@@ -28,14 +28,25 @@ SUITS = ('C', 'S', 'H', 'D')
 RANKS = ('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K')
 VALUES = {'A':1, '2':2, '3':3, '4':4, '5':5, '6':6, '7':7, '8':8, '9':9, 'T':10, 'J':10, 'Q':10, 'K':10}
 
+#creating a list of x,y postions to draw the cards 
 xpos=[x for x in range(0,WIDTH,CARD_SIZE[0])]
 ypos=[x for x in range(0,HEIGHT,CARD_SIZE[1])]
+
 listPos=list()
 
+
+counterx=0
+countery=0
+
 for y in ypos:
+    counterx=0
     for x in xpos:
-        listPos.append((x,y)) 
-        
+        listPos.append((x,y,SUITS[countery],RANKS[counterx])) 
+        counterx+=1
+    countery+=1  
+    
+
+
 class Button(object):
     def __init__(self, surf, caption ,x, y):
         self.value=rnd.randrange(1,5)
@@ -55,11 +66,19 @@ class Button(object):
         self.Surf.blit(text, (self.x, self.y))
         pg.display.update(self.container)
 
+class Dealer(object):
+    def __init__(self,surf):
+        self.Surf=surf
+        self.dealCards=[]
+        self.dealCards.append(Card(self.Surf,250,50,rnd.randrange(len(listPos))))
+        self.dealCards.append(Card(self.Surf,350,50,rnd.randrange(len(listPos))))
+        self.dealCards.append(Card(self.Surf,450,50,rnd.randrange(len(listPos))))
 
 class Card():
-    def __init__(self,surf, cardx, cardy, pos):
+    def __init__(self,surf, cardx, cardy, p):
+        self.pos=listPos[p][0],listPos[p][1],listPos[p][2],listPos[p][3]
         self.Surf=surf
-        self.imageContainer = pg.Rect(pos[0], pos[1], CARD_SIZE[0], CARD_SIZE[1])
+        self.imageContainer = pg.Rect(self.pos[0], self.pos[1], CARD_SIZE[0], CARD_SIZE[1])
         self.container = pg.Rect(cardx, cardy, CARD_SIZE[0], CARD_SIZE[1])
         self.imageSurface = pg.image.load(os.path.join('/home/missoula/cards.jfitz.png'))
         self.coverSurface = pg.image.load(os.path.join('/home/missoula/card_back.png'))
@@ -68,6 +87,12 @@ class Card():
         self.cover()
         pg.display.update()
         
+    def __str__(self):
+        return self.pos[2]+" "+self.pos[3] +" "+ str(VALUES[self.pos[3]])
+    
+    def getValue(self):
+        return VALUES[self.pos[3]] 
+    
     def drawSquare(self):
         card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
         
@@ -91,15 +116,15 @@ class Control:
         pg.init()
         self.myCards=[]
         self.screen = pg.display.set_mode((WIDTH,HEIGHT))
-        
+        Dealer(self.screen)
         self.hit=Button(self.screen,"hit",10,50)
         self.hit.drawButton()
         self.stand=Button(self.screen,"stand",10,100)
         self.stand.drawButton()
         
-        self.myCards.append(Card(self.screen,250,250,listPos[rnd.randrange(len(listPos))]))
-        self.myCards.append(Card(self.screen,350,250,listPos[rnd.randrange(len(listPos))]))
-        self.myCards.append(Card(self.screen,450,250,listPos[rnd.randrange(len(listPos))]))
+        self.myCards.append(Card(self.screen,250,250,rnd.randrange(len(listPos))))
+        self.myCards.append(Card(self.screen,350,250,rnd.randrange(len(listPos))))
+        self.myCards.append(Card(self.screen,450,250,rnd.randrange(len(listPos))))
         
        
         self.Clock = pg.time.Clock()
@@ -119,7 +144,7 @@ class Control:
             elif event.type==pg.MOUSEBUTTONDOWN:
                 mpos = pg.mouse.get_pos()
                 if (self.hit.container.collidepoint(mpos[0],mpos[1])):
-                    print"hit"
+                    print self.myCards[i]
                     self.myCards[i].drawSquare()
                  
                     
