@@ -11,5 +11,5 @@ Everything is rendered from the database. Nothing is hard coded in html.
 Place order picks all inventory from the database.
 ![placeOrder](https://github.com/alwasa0b/school/blob/master/DjangoCouchDB/screenShots/PlaceOrder.png?raw=true)
 
-bear says hello!
+Baham the bear says hello!
 ![bear](https://github.com/alwasa0b/school/blob/master/DjangoCouchDB/screenShots/bear.png?raw=true)
