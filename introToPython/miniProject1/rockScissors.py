@@ -1,4 +1,3 @@
-
 import random
 
 # Rock-paper-scissors-lizard-Spock template
