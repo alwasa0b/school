@@ -52,7 +52,7 @@ In this project, we will build a version of Pong, one of the first arcade video 
 
 **output:**
 
-![stopWatch](https://github.com/alwasa0b/school/blob/master/introToPython/miniProject3/stopWatch.png?raw=true)
+![stopWatch](https://github.com/alwasa0b/school/blob/master/introToPython/miniProject4/pong.png?raw=true)
 
 
 
