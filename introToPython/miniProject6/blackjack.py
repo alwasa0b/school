@@ -170,6 +170,7 @@ class Card():
         card=pg.Surface((CARD_SIZE[0], CARD_SIZE[1]))
         card.blit(self.coverSurface,(0,0))
         self.Surf.blit(card, (self.cardx,self.cardy))
+        
         pg.display.update(self.container)
         
 
