@@ -115,27 +115,35 @@ public class BinaryTree implements Dictionary {
 
 	private BinaryTreeNode findHelper(Comparable key, BinaryTreeNode node) {
 		// Replace the following line with your solution.
-			System.out.println(node);
-			if (key.compareTo(node.entry.key) == 0 ){
-				return node;
+		if(node==null)return null;
+		BinaryTreeNode leftnode = null;
+		BinaryTreeNode rightnode = null;
+		if (key.compareTo(node.entry.key()) == 0) {
+			return node;
+		}
+		
+		
+				if(node.rightChild!=null) leftnode=findHelper(key, node.rightChild);
+				if(node.leftChild!=null) rightnode=findHelper(key, node.leftChild);
+				
+				if(rightnode!=null){
+					return rightnode;
+				}else{
+					return leftnode;
 				}
-			
-			else if(node.leftChild!=null&&node.rightChild!=null){
-				findHelper(key,node.leftChild);
-				findHelper(key,node.rightChild);
-			}else if(node.leftChild!=null){
-				findHelper(key,node.leftChild);
-			}else if(node.rightChild!=null){
-				findHelper(key,node.rightChild);
-			}
 				
 			
-			return null;
-					
+		}
 		
 		
 		
-	}
+		
+		
+		
+		
+
+		
+	
 
 	/**
 	 * Remove an entry with the specified key. If such an entry is found, remove
@@ -151,7 +159,9 @@ public class BinaryTree implements Dictionary {
 
 	public Entry remove(Object key) {
 		// Replace the following line with your solution.
+		
 		return null;
+		
 	}
 
 	/**
