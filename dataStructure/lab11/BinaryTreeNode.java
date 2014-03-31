@@ -24,6 +24,22 @@ class BinaryTreeNode {
 	BinaryTreeNode(Entry entry) {
 		this(entry, null, null, null);
 	}
+	
+	public void delNode(){
+		
+		if (this.parent.leftChild==this) 
+			if(this.leftChild!=null) {this.parent.leftChild=this.leftChild;}
+			else if (this.rightChild!=null){this.parent.rightChild=this.leftChild;}
+			else{this.parent.leftChild=null;}
+			
+		else if(this.parent.rightChild==this)
+			if(this.leftChild!=null) {this.parent.rightChild=this.leftChild;}
+			else if (this.rightChild!=null){this.parent.rightChild=this.rightChild;}
+			else{this.parent.rightChild=null;}
+		else{
+			System.out.println("uncought");
+		}
+	}
 
 	/**
 	 * Simple constructor that sets the entry and parent. The rest of the fields
