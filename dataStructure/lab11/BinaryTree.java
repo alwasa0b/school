@@ -140,12 +140,71 @@ public class BinaryTree implements Dictionary {
 	public Entry remove(Object key) {
 		// Replace the following line with your solution.
 		BinaryTreeNode n= findHelper((Comparable) key, root);
-		if (n==root){
-			if(n.leftChild!=null)root=n.leftChild;
-			else root=n.rightChild;
+		if(n==null){
+			return null;
+		}
+		
+		else if(n.leftChild!=null && n.rightChild!=null){
+			System.out.print("has two childern ");
+			BinaryTreeNode temp = n.rightChild;
+			if(temp.leftChild!=null){
+				while(temp.leftChild!=null){
+					temp=temp.leftChild;
+					System.out.print("bam");
+					
+				}
+				n.entry=temp.entry;
+				temp.parent.leftChild=temp.rightChild;
+				size--;
+			}
+			else{
+				
+				n.rightChild.parent=n.parent;
+				n.entry=n.rightChild.entry;
+				n.rightChild=n.rightChild.rightChild;
+				
+				size--;
+			}
+			
+			
+			
+			
+		}
+		else if(n.leftChild!=null && n.rightChild==null){
+			System.out.print("has a leftchild ");
+			BinaryTreeNode parent = n.parent;
+			BinaryTreeNode childsL = n.leftChild.leftChild;
+			BinaryTreeNode childsR = n.leftChild.rightChild;
+			n.entry=n.leftChild.entry;
+			n.leftChild=childsL;
+			n.rightChild=childsR;
 			size--;
-		}else {n.delNode();size--;}
+			return n.entry;
+			
+		}
+		else if(n.leftChild==null && n.rightChild!=null){
+			System.out.print("has a rightchild ");
+			BinaryTreeNode parent = n.parent;
+			BinaryTreeNode childsL = n.rightChild.leftChild;
+			BinaryTreeNode childsR = n.rightChild.rightChild;
+			n.entry=n.rightChild.entry;
+			n.leftChild=childsL;
+			n.rightChild=childsR;
+			
+		
+			size--;
+			return n.entry;
+		}
+		else{
+			System.out.print("is a leaf ");
+			if(n.parent.leftChild==n)
+				{n.parent.leftChild=null;size--;}
+			else
+				{n.parent.rightChild=null;size--;}
+			
+		}
 		return n.entry;
+	
 		
 	}
 
